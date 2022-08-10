@@ -8,19 +8,16 @@ public class Food {
 
     @Id
     @Column(name = "id" , nullable = false)
-    private Integer id;
+    private int id;
     @Column(name = "name")
     private String name;
 
+    @Column(name = "restaurant_id")
+    private Integer restaurantId;
     @Column(name = "price")
     private float price;
     @Column(name = "description")
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name="restaurant_id")
-    private Restaurant restaurant;
-
 
     public Food() {}
 
@@ -40,6 +37,14 @@ public class Food {
         this.name = name;
     }
 
+    public Integer getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Integer restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
     public float getPrice() {
         return price;
     }
@@ -55,8 +60,4 @@ public class Food {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Restaurant getRestaurant() { return restaurant; }
-
-    public void setRestaurant(Restaurant restaurant) { this.restaurant = restaurant; }
 }
