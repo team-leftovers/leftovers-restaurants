@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Time;
 
 @RestController
-@RequestMapping(path = "/restaurant")
+@RequestMapping(path = "/restaurants")
 public class RestaurantController {
     @Autowired
     RestaurantDao restaurants;
@@ -23,7 +23,6 @@ public class RestaurantController {
     // Restaurant Generation
     @RequestMapping(path = "", method = RequestMethod.POST)
     public ResponseEntity<Restaurant> postRestaurant(@RequestBody Restaurant r) {
-        System.out.println("========\n" + r);
         if(!restaurantInputValidation(r))
             return new ResponseEntity<Restaurant>(HttpStatus.NOT_ACCEPTABLE);
 
@@ -31,6 +30,16 @@ public class RestaurantController {
             return new ResponseEntity<Restaurant>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         return new ResponseEntity<Restaurant>(r,HttpStatus.CREATED);
+    }
+
+    // Restaurant Deletion
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Restaurant> deleteRestaurant(@PathVariable Integer id) {
+        var result = restaurants.getRestaurant(id);
+        if(result == null) return new ResponseEntity<Restaurant>(HttpStatus.GONE);
+
+        restaurants.deleteRestaurant(id);
+        return new ResponseEntity<Restaurant>(HttpStatus.OK);
     }
 
     boolean restaurantInputValidation(Restaurant r) {
