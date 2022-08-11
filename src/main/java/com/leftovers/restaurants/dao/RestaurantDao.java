@@ -21,7 +21,14 @@ public class RestaurantDao {
         return true;
     }
 
-     public Restaurant getRestaurant(Integer id) {
+    public void deleteRestaurant(Integer id) {
+        repo.deleteById(id);
+    }
+    public Restaurant getRestaurant(Integer id) {
         return repo.findRestaurantById(id);
-     }
+    }
+
+    public Restaurant getLatestRestaurant() {
+        return repo.findTopByOrderByIdDesc();
+    }
 }
