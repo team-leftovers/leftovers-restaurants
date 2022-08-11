@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS restaurant(
     open_time TIME NOT NULL,
     close_time Time NOT NULL,
     rating DECIMAL,
+    rating_count INT,
     PRIMARY KEY(id),
     FOREIGN KEY (address_id) REFERENCES address(id)
 );

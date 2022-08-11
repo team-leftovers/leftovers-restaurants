@@ -2,23 +2,28 @@ package com.leftovers.restaurants.model;
 
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.Collection;
 
 @Entity
-@Table(name="restaurant")
+@Table(name = "restaurant")
 public class Restaurant {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "address_id", nullable = false)
-    private Address address;
+    @Column(name = "address_id", nullable = false)
+    private Integer addressId;
+
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "address_id", nullable = false)
+//    private Address address;
 
     @Column(name = "phone_number", length = 15)
     private String phoneNo;
@@ -35,10 +40,21 @@ public class Restaurant {
     @Column(name = "rating")
     private BigDecimal rating;
 
-    @OneToMany(mappedBy="id", fetch = FetchType.EAGER)
+    @Column(name = "rating_count")
+    private Integer ratingCount;
+
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private Collection<Food> menuItems;
 
     public Restaurant() {}
+    public Restaurant(String name, Integer addressId, String phoneNo,
+                      Time openTime, Time closeTime) {
+        this.name = name;
+        this.addressId = addressId;
+        this.phoneNo = phoneNo;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+    }
 
 
     // Getters and Setters
@@ -55,13 +71,13 @@ public class Restaurant {
 
     public void setName(String name) { this.name = name; }
 
-    public Address getAddress() {
-        return address;
-    }
+    public Integer getAddressId() { return addressId; }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+    public void setAddressId(Integer addressId) { this.addressId = addressId; }
+
+//    public Address getAddress() { return address; }
+//
+//    public void setAddress(Address address) { this.address = address; }
 
     public String getPhoneNo() {
         return phoneNo;
@@ -102,6 +118,10 @@ public class Restaurant {
     public void setRating(BigDecimal rating) {
         this.rating = rating;
     }
+
+    public Integer getRatingCount() { return ratingCount; }
+
+    public void setRatingCount(Integer ratingCount) { this.ratingCount = ratingCount; }
 
     public Collection<Food> getMenuItems() { return menuItems; }
 
