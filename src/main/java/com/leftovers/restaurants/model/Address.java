@@ -29,7 +29,8 @@ public class Address {
     private Integer zipCode;
 
     @Column(name = "country", nullable = false)
-    private String country;
+    @Builder.Default
+    private final String country = "US";
 
     @Column(name = "street_address", nullable = false)
     private String streetAddress;

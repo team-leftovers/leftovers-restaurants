@@ -42,10 +42,12 @@ public class Restaurant {
     private Time closeTime;
 
     @Column(name = "rating")
-    private BigDecimal rating;
+    @Builder.Default
+    private BigDecimal rating = new BigDecimal("5.0");
 
     @Column(name = "rating_count")
-    private Integer ratingCount;
+    @Builder.Default
+    private Integer ratingCount = 0;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private Collection<Food> menuItems;
