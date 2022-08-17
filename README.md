@@ -95,30 +95,30 @@ JSON formats at bottom of page.
 ### Restaurant JSON:
 ```json
 {
-  "id": int,
-  "name": string,
+  "id": "int",
+  "name": "string",
   "address": {
-    "id": int,
-    "latitude": real,
-    "longitude": real,
-    "zipCode": string,
-    "state": string,
-    "country": string,
-    "streetAddress": string,
-    "houseNumber": string? //Nullable
+    "id": "int",
+    "latitude": "real",
+    "longitude": "real",
+    "zipCode": "string",
+    "state": "string",
+    "country": "string",
+    "streetAddress": "string",
+    "houseNumber": "string? (Nullable)"
   },
-  "phone_no": string,
-  "website": string,
-  "openTime": time,
-  "closeTime": time,
-  "rating": decimal,
-  "ratingCount": int,
+  "phoneNo": "string",
+  "website": "string",
+  "openTime": "time",
+  "closeTime": "time",
+  "rating": "decimal",
+  "ratingCount": "int",
   "menuItems": [
     {
-      "id": int,
-      "name": string,
-      "price" decimal,
-      "description": string
+      "id": "int",
+      "name": "string",
+      "price": "decimal",
+      "description": "string"
     }
   ]
 }
@@ -127,34 +127,34 @@ JSON formats at bottom of page.
 ### Restaurant Creation JSON:
 ```json
 {
-  "name": string, 
-  "zipCode": string,
-  "state": string,
-  "country": string,
-  "streetAddress": string,
-  "houseNumber": string? //Nullable
-  "unitNumber": string?  //Nullable
-  "phone_no": string,
-  "website": string,
-  "openTime": time,
-  "closeTime": time
+  "name": "string", 
+  "zipCode": "string",
+  "state": "string",
+  "country": "string",
+  "streetAddress": "string",
+  "houseNumber": "string? (Nullable)",
+  "unitNumber": "string? (Nullable)", 
+  "phoneNo": "string",
+  "website": "string",
+  "openTime": "time",
+  "closeTime": "time"
 }
 ```
 
 ### Restaurant Update JSON:
 ```json
 {
-  "name": string,     //Nullable
-  "zipCode": string,  //Nullable
-  "state": string,    //Nullable
-  "country": string,  //Nullable
-  "streetAddress": string, //Nullable
-  "houseNumber": string?   //Nullable
-  "unitNumber": string?    //Nullable
-  "phone_no": string, //Nullable
-  "website": string,  //Nullable
-  "openTime": time,   //Nullable
-  "closeTime": time   //Nullable
+  "name": "string (Nullable)",
+  "zipCode": "string (Nullable)", 
+  "state": "string (Nullable)",   
+  "country": "string (Nullable)", 
+  "streetAddress": "string (Nullable)",
+  "houseNumber": "string (Nullable)",  
+  "unitNumber": "string (Nullable)",   
+  "phone_no": "string (Nullable)",
+  "website": "string (Nullable)", 
+  "openTime": "time (Nullable)",  
+  "closeTime": "time (Nullable)"  
 }
 ```
 
@@ -162,29 +162,29 @@ JSON formats at bottom of page.
 ### Food JSON
 ```json
 {
-  "id": int,
-  "name": string,
-  "description": string,
-  "price": decimal,
-  "restaurantId": int
+  "id": "int",
+  "name": "string",
+  "description": "string",
+  "price": "decimal",
+  "restaurantId": "int"
 }
 ```
 
 ### Food Creation JSON
 ```json
 {
-  "name": string,
-  "description": string,
-  "price": decimal
+  "name": "string",
+  "description": "string",
+  "price": "decimal"
 }
 ```
 
 ### Food Update JSON
 ```json
 {
-  "name": string,        //Nullable
-  "description": string, //Nullable
-  "price": decimal       //Nullable
+  "name": "string (Nullable)",       
+  "description": "string (Nullable)",
+  "price": "decimal (Nullable)"      
 }
 ```
 
@@ -192,6 +192,6 @@ JSON formats at bottom of page.
 ### Search JSON
 ```json
 {
-  "term": string
+  "term": "string"
 }
 ```
