@@ -43,23 +43,6 @@ JSON formats at bottom of page.
 - 200 OK:  JSON list of food associated with restaurant
 - 204 No Content: if no food has been added to restaurant
 
-## `/restaurants/{rid}/food/{fid}`
-### GET:
-- 200 OK:  JSON object of food requested
-- 400 Bad Request: on passing invalid rid or fid
-- 404 Not Found: on failure to find restaurant or food
-
-### PUT:
-- Updates a food using a JSON object
-- 200 OK: JSON object if food updated successfully
-- 400 Bad Request: on passing invalid rid or fid
-- 422 Unprocessable Entity: if JSON object is malformed or has invalid field values
-
-### DELETE:
-- 200 OK:  successful deletion of food item
-- 400 Bad Request: on passing invalid rid or fid
-- 404 Not Found: on failure to find the food item
-
 ## `/food`
 ### GET:
 - 200 OK:  JSON list of all food
