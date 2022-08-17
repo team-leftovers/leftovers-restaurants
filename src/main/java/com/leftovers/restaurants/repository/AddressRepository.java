@@ -1,4 +1,4 @@
-package com.leftovers.restaurants.dao;
+package com.leftovers.restaurants.repository;
 
 import com.leftovers.restaurants.model.Address;
 import org.springframework.data.repository.CrudRepository;
