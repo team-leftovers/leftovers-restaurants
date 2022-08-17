@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS restaurant(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(255) NOT NULL,
     address_id INT NOT NULL,
-    phone_number VARCHAR(15) NOT NULL,
+    phone_no VARCHAR(15) NOT NULL,
     website VARCHAR(255),
     open_time TIME NOT NULL,
     close_time TIME NOT NULL,
