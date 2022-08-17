@@ -8,5 +8,5 @@ import java.util.List;
 public interface RestaurantRepository extends CrudRepository<Restaurant, Integer> {
     Restaurant findRestaurantById(Integer id);
     Restaurant findTopByOrderByIdDesc();
-    Iterable<Restaurant> findRestaurantByNameContainingIgnoreCase(String str);
+    List<Restaurant> findRestaurantByNameContainingIgnoreCase(String str);
 }
