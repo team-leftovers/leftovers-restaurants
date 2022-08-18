@@ -127,17 +127,17 @@ JSON formats at bottom of page.
 ### Restaurant Update JSON:
 ```json
 {
-  "name": "string (Nullable)",
-  "zipCode": "string (Nullable)", 
-  "state": "string (Nullable)",   
-  "country": "string (Nullable)", 
-  "streetAddress": "string (Nullable)",
-  "houseNumber": "string (Nullable)",  
-  "unitNumber": "string (Nullable)",   
-  "phone_no": "string (Nullable)",
-  "website": "string (Nullable)", 
-  "openTime": "time (Nullable)",  
-  "closeTime": "time (Nullable)"  
+  "name": "string",
+  "zipCode": "string", 
+  "state": "string",   
+  "country": "string", 
+  "streetAddress": "string",
+  "houseNumber": "string? (Nullable)",  
+  "unitNumber": "string? (Nullable)",   
+  "phone_no": "string",
+  "website": "string", 
+  "openTime": "time",  
+  "closeTime": "time"  
 }
 ```
 
