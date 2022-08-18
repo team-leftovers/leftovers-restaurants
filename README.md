@@ -33,17 +33,17 @@ JSON formats at bottom of page.
 - 404 Not Found: on failure to find the restaurant
 
 ## `/restaurants/{id}/food`
+### GET:
+- 200 OK:  JSON list of food associated with restaurant
+- 204 No Content: if no food has been added to restaurant
+
+## `/food`
 ### POST:
 - Create new food item for restaurant id using JSON object
 - 201 Created: JSON object of restaurant on creation success
 - 400 Bad Request: on creation failure
 - 422 Unprocessable Entity: if JSON object is malformed or has invalid field values
 
-### GET:
-- 200 OK:  JSON list of food associated with restaurant
-- 204 No Content: if no food has been added to restaurant
-
-## `/food`
 ### GET:
 - 200 OK:  JSON list of all food
 - 204 No Content: if no food has been added to table
