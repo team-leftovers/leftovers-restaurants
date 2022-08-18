@@ -3,6 +3,7 @@ package com.leftovers.restaurants.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="product")
+@Table(name="tbl_food")
 public class Food {
     @Id
     @Column(name = "id" , nullable = false)
@@ -20,7 +21,7 @@ public class Food {
     private String name;
 
     @Column(name = "price")
-    private float price;
+    private BigDecimal price;
 
     @Column(name = "description")
     private String description;

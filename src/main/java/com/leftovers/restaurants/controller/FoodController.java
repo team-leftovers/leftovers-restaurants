@@ -1,5 +1,6 @@
 package com.leftovers.restaurants.controller;
 
+import com.leftovers.restaurants.dto.CreateFoodDto;
 import com.leftovers.restaurants.dto.UpdateFoodDto;
 import com.leftovers.restaurants.dto.UpdateRestaurantDto;
 import com.leftovers.restaurants.model.Food;
@@ -10,11 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +26,15 @@ public class FoodController {
     private static final String MAPPING = "/food";
     private final FoodService service;
 
+
+    @RequestMapping(path = "", method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<Food> createFood(@Valid @RequestBody CreateFoodDto dto) {
+        log.info("POST Food");
+        var food = service.createNewFood(dto);
+        var uri = URI.create(MAPPING + "/" + food.getId());
+        return  ResponseEntity.created(uri).body(food);
+    }
 
     @RequestMapping(path = "", method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -46,7 +55,7 @@ public class FoodController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Food> updateFood(@PathVariable Integer id, UpdateFoodDto dto) {
+    public ResponseEntity<Food> updateFood(@PathVariable Integer id, @Valid @RequestBody UpdateFoodDto dto) {
         log.info("PUT Restaurant " + id);
         return ResponseEntity.of(Optional.ofNullable(service.updateFood(id, dto)));
     }

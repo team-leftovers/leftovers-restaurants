@@ -55,7 +55,8 @@ public class RestaurantController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Integer id, UpdateRestaurantDto dto) {
+    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Integer id,
+                                                       @Valid @RequestBody UpdateRestaurantDto dto) {
         log.info("PUT Restaurant " + id);
         return ResponseEntity.of(Optional.ofNullable(service.updateRestaurant(id, dto)));
     }
@@ -67,17 +68,8 @@ public class RestaurantController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(path = "/{id}/food", method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Food> addFoodToRestaurant(@PathVariable Integer id, CreateFoodDto dto) {
-        log.info("POST Restaurant " + id + " Food");
-        var food = service.addFoodToRestaurant(id, dto);
-        var uri = URI.create("food/" + food.getId());
-        return ResponseEntity.created(uri).body(food);
-    }
-
     @RequestMapping(path = "/{id}/food", method = RequestMethod.GET,
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Food>> getFoodFromRestaurant(@PathVariable Integer id) {
         log.info("POST Restaurant " + id + " Food");
         var food = service.getAllFoodByRestaurant(id);

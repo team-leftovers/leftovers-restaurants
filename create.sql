@@ -1,6 +1,6 @@
 /* Base Tables */
 /* =========== */
-CREATE TABLE IF NOT EXISTS account(
+CREATE TABLE IF NOT EXISTS tbl_account(
     id INT AUTO_INCREMENT NOT NULL,
     first_name VARCHAR(255), /* These two are nullible for admin accounts */
     last_name VARCHAR(255),
@@ -11,11 +11,11 @@ CREATE TABLE IF NOT EXISTS account(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS address(
+CREATE TABLE IF NOT EXISTS tbl_address(
     id INT AUTO_INCREMENT NOT NULL,
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL,
-    zip_code INT NOT NULL,
+    zip_code VARCHAR(15) NOT NULL,
     country VARCHAR(255) NOT NULL,
 	state VARCHAR(2) NOT NULL,
     street_address VARCHAR(255) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS address(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS discount(
+CREATE TABLE IF NOT EXISTS tbl_discount(
     id INT AUTO_INCREMENT NOT NULL,
     code VARCHAR(255) NOT NULL,
     percent DECIMAL NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS discount(
     PRIMARY KEY(id)
 );
 
-CREATE TABLE IF NOT EXISTS tag(
+CREATE TABLE IF NOT EXISTS tbl_tag(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(255) NOT NULL,
     PRIMARY KEY(id)
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS tag(
 
 /* Restaurant Tables */
 /* ================= */
-CREATE TABLE IF NOT EXISTS restaurant(
+CREATE TABLE IF NOT EXISTS tbl_restaurant(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(255) NOT NULL,
     address_id INT NOT NULL,
@@ -51,86 +51,86 @@ CREATE TABLE IF NOT EXISTS restaurant(
     rating DECIMAL,
     rating_count INT,
     PRIMARY KEY(id),
-    FOREIGN KEY (address_id) REFERENCES address(id)
+    FOREIGN KEY (address_id) REFERENCES tbl_address(id)
 );
 
-CREATE TABLE IF NOT EXISTS restaurant_tag(
+CREATE TABLE IF NOT EXISTS tbl_restaurant_tag(
     restaurant_id INT NOT NULL,
     tag_id INT NOT NULL,
     CONSTRAINT pk_rtag PRIMARY KEY (restaurant_id, tag_id),
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
+    FOREIGN KEY (restaurant_id) REFERENCES tbl_restaurant(id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE,
-    FOREIGN KEY (tag_id) REFERENCES tag(id)
+    FOREIGN KEY (tag_id) REFERENCES tbl_tag(id)
 );
 
-CREATE TABLE IF NOT EXISTS food(
+CREATE TABLE IF NOT EXISTS tbl_food(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(255) NOT NULL,
     restaurant_id INT NOT NULL,
     price DECIMAL NOT NULL,
     description TEXT,
     PRIMARY KEY (id),
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
+    FOREIGN KEY (restaurant_id) REFERENCES tbl_restaurant(id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS food_tag(
+CREATE TABLE IF NOT EXISTS tbl_food_tag(
     food_id INT NOT NULL,
     tag_id INT NOT NULL,
     CONSTRAINT pk_ptag PRIMARY KEY (food_id, tag_id),
-    FOREIGN KEY (food_id) REFERENCES food(id)
+    FOREIGN KEY (food_id) REFERENCES tbl_food(id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE,
-    FOREIGN KEY (tag_id) REFERENCES tag(id)
+    FOREIGN KEY (tag_id) REFERENCES tbl_tag(id)
 );
 
 /* Account Tables */
 /* ============== */
 
-CREATE TABLE IF NOT EXISTS restaurant_admin(
+CREATE TABLE IF NOT EXISTS tbl_restaurant_admin(
     account_id INT NOT NULL,
     restaurant_id INT NOT NULL,
     PRIMARY KEY (account_id),
-    FOREIGN KEY (account_id) REFERENCES account(id),
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
+    FOREIGN KEY (account_id) REFERENCES tbl_account(id),
+    FOREIGN KEY (restaurant_id) REFERENCES tbl_restaurant(id)
 );
 
-CREATE TABLE IF NOT EXISTS driver(
+CREATE TABLE IF NOT EXISTS tbl_driver(
     account_id INT NOT NULL,
     license_plate VARCHAR(255) NOT NULL,
     rating DECIMAL NOT NULL,
     PRIMARY KEY (account_id),
-    FOREIGN KEY (account_id) REFERENCES account(id)
+    FOREIGN KEY (account_id) REFERENCES tbl_account(id)
 );
 
-CREATE TABLE IF NOT EXISTS customer(
+CREATE TABLE IF NOT EXISTS tbl_customer(
     account_id INT NOT NULL,
     address_id INT NOT NULL,
     PRIMARY KEY (account_id),
-    FOREIGN KEY (account_id) REFERENCES account(id),
-    FOREIGN KEY (address_id) REFERENCES address(id)
+    FOREIGN KEY (account_id) REFERENCES tbl_account(id),
+    FOREIGN KEY (address_id) REFERENCES tbl_address(id)
 );
 
-CREATE TABLE IF NOT EXISTS site_admin(
+CREATE TABLE IF NOT EXISTS tbl_site_admin(
     account_id INT NOT NULL,
     PRIMARY KEY (account_id),
-    FOREIGN KEY (account_id) REFERENCES account(id)
+    FOREIGN KEY (account_id) REFERENCES tbl_account(id)
 );
 
-CREATE TABLE IF NOT EXISTS payment_method(
+CREATE TABLE IF NOT EXISTS tbl_payment_method(
     id INT AUTO_INCREMENT NOT NULL,
     customer_id INT NOT NULL,
     card_no VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (customer_id) REFERENCES customer(account_id)
+    FOREIGN KEY (customer_id) REFERENCES tbl_customer(account_id)
 );
 
 /* Order Tables */
 /* ============ */
 
-CREATE TABLE IF NOT EXISTS order(
+CREATE TABLE IF NOT EXISTS tbl_order(
     id INT AUTO_INCREMENT NOT NULL,
     driver_id INT NOT NULL,
     customer_id INT NOT NULL,
@@ -139,13 +139,13 @@ CREATE TABLE IF NOT EXISTS order(
     status ENUM('pending', 'accepted', 'working', 'waiting', 'delivery', 'delivered', 'cancelled', 'error') NOT NULL,
     total_price DECIMAL NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (driver_id) REFERENCES driver(account_id),
-    FOREIGN KEY (customer_id) REFERENCES customer(account_id),
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant(id),
-    FOREIGN KEY (discount_id) REFERENCES discount(id)
+    FOREIGN KEY (driver_id) REFERENCES tbl_driver(account_id),
+    FOREIGN KEY (customer_id) REFERENCES tbl_customer(account_id),
+    FOREIGN KEY (restaurant_id) REFERENCES tbl_restaurant(id),
+    FOREIGN KEY (discount_id) REFERENCES tbl_discount(id)
 );
 
-CREATE TABLE IF NOT EXISTS order_item(
+CREATE TABLE IF NOT EXISTS tbl_order_item(
     order_id INT NOT NULL,
     food_id INT NOT NULL,
     quantity INT NOT NULL,
@@ -154,15 +154,15 @@ CREATE TABLE IF NOT EXISTS order_item(
     driver_rating INT,
     food_rating INT,
     CONSTRAINT pk_order_item PRIMARY KEY (order_id, food_id),
-    FOREIGN KEY (order_Id) REFERENCES order(id),
-    FOREIGN KEY (food_id) REFERENCES food(id)
+    FOREIGN KEY (order_Id) REFERENCES tbl_order(id),
+    FOREIGN KEY (food_id) REFERENCES tbl_food(id)
 );
 
-CREATE TABLE IF NOT EXISTS transaction(
+CREATE TABLE IF NOT EXISTS tbl_transaction(
     id INT AUTO_INCREMENT NOT NULL,
     order_id INT NOT NULL,
     payment_id INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (order_id) REFERENCES order(id),
-    FOREIGN KEY (payment_id) REFERENCES payment_method(id)
+    FOREIGN KEY (order_id) REFERENCES tbl_order(id),
+    FOREIGN KEY (payment_id) REFERENCES tbl_payment_method(id)
 );

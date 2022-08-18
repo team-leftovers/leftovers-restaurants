@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,7 +16,7 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "restaurant")
+@Table(name = "tbl_restaurant")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,5 +51,5 @@ public class Restaurant {
     private Integer ratingCount = 0;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
-    private Collection<Food> menuItems;
+    private List<Food> menuItems;
 }

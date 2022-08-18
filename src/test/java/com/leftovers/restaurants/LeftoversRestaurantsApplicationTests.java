@@ -1,7 +1,6 @@
 package com.leftovers.restaurants;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leftovers.restaurants.dao.RestaurantDao;
 import com.leftovers.restaurants.model.Restaurant;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

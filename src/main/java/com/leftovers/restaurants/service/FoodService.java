@@ -10,6 +10,7 @@ import com.leftovers.restaurants.model.Restaurant;
 import java.util.List;
 
 public interface FoodService {
+    Food createNewFood(CreateFoodDto dto);
     List<Food> getAllFood();
     Food getFood(Integer id);
     Food updateFood(Integer id, UpdateFoodDto dto);

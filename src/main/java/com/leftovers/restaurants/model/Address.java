@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "address")
+@Table(name = "tbl_address")
 public class Address {
     @Id
     @Column(name = "id", nullable = false)
@@ -26,7 +26,10 @@ public class Address {
     private Double longitude;
 
     @Column(name = "zip_code", nullable = false)
-    private Integer zipCode;
+    private String zipcode;
+
+    @Column(name = "state", nullable = false)
+    private String state;
 
     @Column(name = "country", nullable = false)
     @Builder.Default

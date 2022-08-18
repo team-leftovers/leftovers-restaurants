@@ -13,4 +13,7 @@ public class CreateFoodDto {
 
     @NotNull(message = "Price is required")
     public BigDecimal price;
+
+    @NotNull(message = "Associated restaurant id is required")
+    public Integer restaurantId;
 }

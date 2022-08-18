@@ -12,7 +12,12 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class UpdateFoodDto {
+    @NotNull
+    @NotBlank(message = "Name is required")
     public String name;
+
     public String description;
+
+    @NotNull(message = "Price is required")
     public BigDecimal price;
 }

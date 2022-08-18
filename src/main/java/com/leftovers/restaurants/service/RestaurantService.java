@@ -14,6 +14,5 @@ public interface RestaurantService {
     Restaurant getRestaurant(Integer id);
     Restaurant updateRestaurant(Integer id, UpdateRestaurantDto dto);
     void deleteRestaurant(Integer id);
-    Food addFoodToRestaurant(Integer id, CreateFoodDto dto);
     List<Food> getAllFoodByRestaurant(Integer id);
 }
