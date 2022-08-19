@@ -36,6 +36,7 @@ JSON formats at bottom of page.
 ### GET:
 - 200 OK:  JSON list of food associated with restaurant
 - 204 No Content: if no food has been added to restaurant
+- 404 Not Found: on failure to find the restaurant
 
 ## `/food`
 ### POST:
@@ -84,11 +85,12 @@ JSON formats at bottom of page.
     "id": "int",
     "latitude": "real",
     "longitude": "real",
-    "zipCode": "string",
+    "zipcode": "string",
+    "city": "string",
     "state": "string",
     "country": "string",
     "streetAddress": "string",
-    "houseNumber": "string? (Nullable)"
+    "unitNumber": "string? (Nullable)"
   },
   "phoneNo": "string",
   "website": "string",
@@ -111,11 +113,11 @@ JSON formats at bottom of page.
 ```json
 {
   "name": "string", 
-  "zipCode": "string",
+  "zipcode": "string",
+  "city": "string",
   "state": "string",
   "country": "string",
   "streetAddress": "string",
-  "houseNumber": "string? (Nullable)",
   "unitNumber": "string? (Nullable)", 
   "phoneNo": "string",
   "website": "string",
@@ -128,11 +130,11 @@ JSON formats at bottom of page.
 ```json
 {
   "name": "string",
-  "zipCode": "string", 
+  "zipcode": "string", 
+  "city": "string",
   "state": "string",   
   "country": "string", 
   "streetAddress": "string",
-  "houseNumber": "string? (Nullable)",  
   "unitNumber": "string? (Nullable)",   
   "phone_no": "string",
   "website": "string", 
