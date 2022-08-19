@@ -10,6 +10,7 @@ import com.leftovers.restaurants.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class FoodServiceImpl implements FoodService {
     private final FoodRepository foodRepo;
     private final RestaurantRepository restRepo;
 
+    @Transactional
     @Override
     public Food createNewFood(CreateFoodDto dto) {
         notNull(dto);
@@ -47,6 +49,7 @@ public class FoodServiceImpl implements FoodService {
                 .orElseThrow(() -> new NoSuchFoodException(id));
     }
 
+    @Transactional
     @Override
     public Food updateFood(Integer id, UpdateFoodDto dto) {
         notNull(id, dto);
@@ -62,10 +65,11 @@ public class FoodServiceImpl implements FoodService {
         return foodRepo.save(food);
     }
 
+    @Transactional
     @Override
     public void deleteFood(Integer id) {
         notNull(id);
-        if(!foodRepo.deleteFoodById(id))
+        if(foodRepo.deleteFoodById(id) == 0)
             throw new NoSuchFoodException(id);
     }
 

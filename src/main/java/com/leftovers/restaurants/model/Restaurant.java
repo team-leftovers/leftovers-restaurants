@@ -2,6 +2,7 @@ package com.leftovers.restaurants.model;
 
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -28,6 +29,7 @@ public class Restaurant {
 
     @ManyToOne
     @JoinColumn(name = "address_id", nullable = false)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Address address;
 
     @Column(name = "phone_no", length = 15)

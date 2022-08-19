@@ -11,5 +11,5 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
     Optional<Restaurant> findTopByOrderByIdDesc();
     List<Restaurant> findRestaurantByNameContainingIgnoreCase(String str);
     List<Restaurant> findAll();
-    boolean deleteRestaurantById(Integer id);
+    int deleteRestaurantById(Integer id);
 }

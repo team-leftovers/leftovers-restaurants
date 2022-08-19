@@ -88,10 +88,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restRepo.save(restaurant);
     }
 
+    @Transactional
     @Override
     public void deleteRestaurant(Integer id) {
         notNull(id);
-        if(!restRepo.deleteRestaurantById(id))
+        if(restRepo.deleteRestaurantById(id) == 0)
             throw new NoSuchRestaurantException(id);
     }
 

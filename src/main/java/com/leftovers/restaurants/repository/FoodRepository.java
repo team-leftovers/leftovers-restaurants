@@ -10,5 +10,5 @@ public interface FoodRepository extends CrudRepository<Food, Integer> {
     Optional<Food> findFoodById(Integer id);
     List<Food> findAll();
     List<Food> findFoodByNameContainingIgnoreCase(String str);
-    boolean deleteFoodById(Integer id);
+    int deleteFoodById(Integer id);
 }
