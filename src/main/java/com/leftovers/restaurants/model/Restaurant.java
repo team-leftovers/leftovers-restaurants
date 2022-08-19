@@ -50,6 +50,6 @@ public class Restaurant {
     @Builder.Default
     private Integer ratingCount = 0;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Food> menuItems;
 }

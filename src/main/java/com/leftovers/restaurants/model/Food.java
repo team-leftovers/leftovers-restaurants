@@ -30,9 +30,9 @@ public class Food {
     @Column(name = "description")
     private String description;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Food.class)
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="restaurant_id")
+    @JoinColumn(name="restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;
 }
