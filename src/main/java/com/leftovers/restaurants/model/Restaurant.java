@@ -3,12 +3,9 @@ package com.leftovers.restaurants.model;
 
 import lombok.*;
 import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -52,6 +49,7 @@ public class Restaurant {
     @Builder.Default
     private Integer ratingCount = 0;
 
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany//(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    @JoinColumn(name="restaurant_id")//, referencedColumnName = "id")
     private List<Food> menuItems;
 }

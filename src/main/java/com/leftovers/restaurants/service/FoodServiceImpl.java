@@ -23,15 +23,17 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Food createNewFood(CreateFoodDto dto) {
         notNull(dto);
-        var restaurant = restRepo.findRestaurantById(dto.restaurantId);
-        if(restaurant.isEmpty())
-            throw new NoSuchRestaurantException(dto.restaurantId);
+//        var restaurant = restRepo.findRestaurantById(dto.restaurantId);
+//        if(restaurant.isEmpty())
+//            throw new NoSuchRestaurantException(dto.restaurantId);
 
+        //try catch foreign key exception
         Food food = Food.builder()
                 .name(dto.name)
                 .description(dto.description)
                 .price(dto.price)
-                .restaurant(restaurant.get())
+//                .restaurant(dto.restaurantId)
+                .restaurantId(dto.restaurantId)
             .build();
 
         return foodRepo.save(food);

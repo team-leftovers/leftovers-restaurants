@@ -2,11 +2,8 @@ package com.leftovers.restaurants.controller;
 
 import com.leftovers.restaurants.dto.CreateFoodDto;
 import com.leftovers.restaurants.dto.UpdateFoodDto;
-import com.leftovers.restaurants.dto.UpdateRestaurantDto;
 import com.leftovers.restaurants.model.Food;
-import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.service.FoodService;
-import com.leftovers.restaurants.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

@@ -2,7 +2,6 @@ package com.leftovers.restaurants.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
@@ -31,9 +30,14 @@ public class Food {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "restaurant_id")//, updatable = false)//, insertable = false)
+    private int restaurantId;
+
+
+
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Food.class)
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="restaurant_id", referencedColumnName = "id")
+    @JoinColumn(name="restaurant_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Restaurant restaurant;
 }

@@ -2,13 +2,11 @@ package com.leftovers.restaurants.service;
 
 import com.leftovers.restaurants.dto.CreateRestaurantDto;
 import com.leftovers.restaurants.dto.UpdateRestaurantDto;
-import com.leftovers.restaurants.exception.NoSuchFoodException;
 import com.leftovers.restaurants.exception.NoSuchRestaurantException;
 import com.leftovers.restaurants.model.Address;
 import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.repository.AddressRepository;
-import com.leftovers.restaurants.repository.FoodRepository;
 import com.leftovers.restaurants.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +33,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .unitNumber(dto.unitNumber)
             .build();
 
-        addrRepo.save(address);
+        address = addrRepo.save(address);
 
         var restaurant = Restaurant.builder()
                 .name(dto.name)
@@ -43,7 +41,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .website(dto.website)
                 .openTime(dto.openTime)
                 .closeTime(dto.closeTime)
-                .address(address)
+                .address(address) //address.id
             .build();
 
         return restRepo.save(restaurant);
@@ -96,14 +94,14 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new NoSuchRestaurantException(id);
     }
 
-    @Override
-    public List<Food> getAllFoodByRestaurant(Integer id) {
-        notNull(id);
-        var restaurant = restRepo.findRestaurantById(id);
-        if(restaurant.isEmpty())
-            throw new NoSuchRestaurantException(id);
-        return restaurant.get().getMenuItems();
-    }
+//    @Override
+//    public List<Food> getAllFoodByRestaurant(Integer id) {
+//        notNull(id);
+//        var restaurant = restRepo.findRestaurantById(id);
+//        if(restaurant.isEmpty())
+//            throw new NoSuchRestaurantException(id);
+//        return restaurant.get().getMenuItems();
+//    }
 
     // Utility function to determine if input was incorrectly null
     private void notNull(Object... ids) {
@@ -112,4 +110,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 throw new IllegalArgumentException("Expected value but received null.");
         }
     }
+
+    //private Object checkRepo(CrudRepo repo, int id)
+        // checks if object exists and throws if not
 }

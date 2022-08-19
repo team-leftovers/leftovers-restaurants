@@ -1,6 +1,5 @@
 package com.leftovers.restaurants.controller;
 
-import com.leftovers.restaurants.dto.CreateFoodDto;
 import com.leftovers.restaurants.dto.CreateRestaurantDto;
 import com.leftovers.restaurants.dto.UpdateRestaurantDto;
 import com.leftovers.restaurants.model.Food;
@@ -8,7 +7,6 @@ import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.sql.Update;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,13 +66,13 @@ public class RestaurantController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(path = "/{id}/food", method = RequestMethod.GET,
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<List<Food>> getFoodFromRestaurant(@PathVariable Integer id) {
-        log.info("POST Restaurant " + id + " Food");
-        var food = service.getAllFoodByRestaurant(id);
-        if(food.isEmpty())
-            return ResponseEntity.noContent().build();
-        return ResponseEntity.ok().body(food);
-    }
+//    @RequestMapping(path = "/{id}/food", method = RequestMethod.GET,
+//            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+//    public ResponseEntity<List<Food>> getFoodFromRestaurant(@PathVariable Integer id) {
+//        log.info("POST Restaurant " + id + " Food");
+//        var food = service.getAllFoodByRestaurant(id);
+//        if(food.isEmpty())
+//            return ResponseEntity.noContent().build();
+//        return ResponseEntity.ok().body(food);
+//    }
 }

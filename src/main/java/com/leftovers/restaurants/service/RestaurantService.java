@@ -1,6 +1,5 @@
 package com.leftovers.restaurants.service;
 
-import com.leftovers.restaurants.dto.CreateFoodDto;
 import com.leftovers.restaurants.dto.CreateRestaurantDto;
 import com.leftovers.restaurants.dto.UpdateRestaurantDto;
 import com.leftovers.restaurants.model.Food;
@@ -14,5 +13,5 @@ public interface RestaurantService {
     Restaurant getRestaurant(Integer id);
     Restaurant updateRestaurant(Integer id, UpdateRestaurantDto dto);
     void deleteRestaurant(Integer id);
-    List<Food> getAllFoodByRestaurant(Integer id);
+//    List<Food> getAllFoodByRestaurant(Integer id);
 }
