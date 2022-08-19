@@ -35,6 +35,8 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .unitNumber(dto.unitNumber)
             .build();
 
+        addrRepo.save(address);
+
         var restaurant = Restaurant.builder()
                 .name(dto.name)
                 .phoneNo(dto.phoneNo)

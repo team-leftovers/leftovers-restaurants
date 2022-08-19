@@ -2,10 +2,7 @@ package com.leftovers.restaurants.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -16,14 +13,17 @@ import javax.persistence.Table;
 @Table(name = "tbl_address")
 public class Address {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @Column(name = "latitude", nullable = false)
-    private Double latitude;
+    @Builder.Default
+    private Double latitude = 0.0;
 
     @Column(name = "longitude", nullable = false)
-    private Double longitude;
+    @Builder.Default
+    private Double longitude = 0.0;
 
     @Column(name = "zip_code", nullable = false)
     private String zipcode;

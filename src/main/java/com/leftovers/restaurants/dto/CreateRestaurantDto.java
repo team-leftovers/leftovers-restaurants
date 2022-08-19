@@ -45,11 +45,9 @@ public class CreateRestaurantDto {
 
     public String website;
 
-    @NotNull
-    @NotBlank(message = "Opening time is required")
+    @NotNull(message = "Opening time is required")
     public Time openTime;
 
-    @NotNull
-    @NotBlank(message = "Closing time is required")
+    @NotNull(message = "Closing time is required")
     public Time closeTime;
 }

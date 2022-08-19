@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 @Table(name="tbl_food")
 public class Food {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id" , nullable = false)
     private Integer id;
 
@@ -32,7 +33,7 @@ public class Food {
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Food.class)
     @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;
 }
