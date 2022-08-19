@@ -160,16 +160,17 @@ JSON formats at bottom of page.
 {
   "name": "string",
   "description": "string",
-  "price": "decimal"
+  "price": "decimal",
+  "restaurantId": "int"
 }
 ```
 
 ### Food Update JSON
 ```json
 {
-  "name": "string (Nullable)",       
-  "description": "string (Nullable)",
-  "price": "decimal (Nullable)"      
+  "name": "string",       
+  "description": "string",
+  "price": "decimal"
 }
 ```
 
