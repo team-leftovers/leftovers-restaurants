@@ -40,16 +40,14 @@ public class UpdateRestaurantDto {
 
     @NotNull
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "^\\d{10,15}$", message = "Phone number must be between 10 and 15 numbers")
+    //@Pattern(regexp = "^\\d{10,15}$", message = "Phone number must be between 10 and 15 numbers")
     public String phoneNo;
 
     public String website;
 
-    @NotNull
-    @NotBlank(message = "Opening time is required")
+    @NotNull(message = "Opening time is required")
     public Time openTime;
 
-    @NotNull
-    @NotBlank(message = "Closing time is required")
+    @NotNull(message = "Closing time is required")
     public Time closeTime;
 }

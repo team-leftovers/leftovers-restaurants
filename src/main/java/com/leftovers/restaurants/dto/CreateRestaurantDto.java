@@ -40,7 +40,7 @@ public class CreateRestaurantDto {
 
     @NotNull
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "^\\d{10,15}$", message = "Phone number must be between 10 and 15 numbers")
+    //@Pattern(regexp = "^\\d{10,15}$", message = "Phone number must be between 10 and 15 numbers")
     public String phoneNo;
 
     public String website;
