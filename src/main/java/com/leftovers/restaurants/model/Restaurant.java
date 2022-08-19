@@ -26,7 +26,7 @@ public class Restaurant {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
@@ -50,6 +50,6 @@ public class Restaurant {
     @Builder.Default
     private Integer ratingCount = 0;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<Food> menuItems;
 }
