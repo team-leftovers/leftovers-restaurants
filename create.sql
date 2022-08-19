@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS tbl_account(
     last_name VARCHAR(255),
     email VARCHAR(255) NOT NULL,
     phone_no VARCHAR(15 /* Max Phone Number Length */),
-    hashed_password VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     type ENUM('R', 'D', 'C', 'S') NOT NULL, /* R: Restaurant Admin, D: Driver, C: Customer, S: Site Admin */
     PRIMARY KEY (id)
 );
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS tbl_address(
     longitude DOUBLE NOT NULL,
     zip_code VARCHAR(15) NOT NULL,
     country VARCHAR(255) NOT NULL,
-	state VARCHAR(2) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    state VARCHAR(2) NOT NULL,
     street_address VARCHAR(255) NOT NULL,
-    house_number VARCHAR(5),
     unit_number VARCHAR(5),
     PRIMARY KEY (id)
 );
@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS tbl_restaurant_tag(
     tag_id INT NOT NULL,
     CONSTRAINT pk_rtag PRIMARY KEY (restaurant_id, tag_id),
     FOREIGN KEY (restaurant_id) REFERENCES tbl_restaurant(id)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE,
+     ON DELETE CASCADE
+     ON UPDATE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tbl_tag(id)
 );
 
@@ -72,8 +72,8 @@ CREATE TABLE IF NOT EXISTS tbl_food(
     description TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (restaurant_id) REFERENCES tbl_restaurant(id)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS tbl_food_tag(
@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS tbl_food_tag(
     tag_id INT NOT NULL,
     CONSTRAINT pk_ptag PRIMARY KEY (food_id, tag_id),
     FOREIGN KEY (food_id) REFERENCES tbl_food(id)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE,
+       ON DELETE CASCADE
+       ON UPDATE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tbl_tag(id)
 );
 

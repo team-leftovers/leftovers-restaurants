@@ -13,6 +13,7 @@ import com.leftovers.restaurants.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -21,15 +22,16 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restRepo;
     private final AddressRepository addrRepo;
 
+    @Transactional
     @Override
     public Restaurant createNewRestaurant(CreateRestaurantDto dto) {
         notNull(dto);
         var address = Address.builder()
                 .zipcode(dto.zipcode)
                 .state(dto.state)
+                .city(dto.city)
                 //.country(dto.country)
                 .streetAddress(dto.streetAddress)
-                .houseNumber(dto.houseNumber)
                 .unitNumber(dto.unitNumber)
             .build();
 
@@ -57,6 +59,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .orElseThrow(() -> new NoSuchRestaurantException(id));
     }
 
+    @Transactional
     @Override
     public Restaurant updateRestaurant(Integer id, UpdateRestaurantDto dto) {
         notNull(id, dto);
@@ -68,8 +71,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         restaurant.getAddress().setZipcode(dto.zipcode);
         restaurant.getAddress().setState(dto.state);
+        restaurant.getAddress().setCity(dto.city);
         restaurant.getAddress().setStreetAddress(dto.streetAddress);
-        restaurant.getAddress().setHouseNumber(dto.houseNumber);
         restaurant.getAddress().setUnitNumber(dto.unitNumber);
 
         addrRepo.save(restaurant.getAddress());

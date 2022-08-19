@@ -23,6 +23,10 @@ public class UpdateRestaurantDto {
     public String zipcode;
 
     @NotNull
+    @NotBlank(message = "City is required")
+    public String city;
+
+    @NotNull
     @NotBlank(message = "State is required")
     public String state;
 
@@ -31,8 +35,6 @@ public class UpdateRestaurantDto {
     @NotNull
     @NotBlank(message = "Street Address is required")
     public String streetAddress;
-
-    public String houseNumber;
 
     public String unitNumber;
 

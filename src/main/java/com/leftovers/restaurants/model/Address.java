@@ -28,6 +28,9 @@ public class Address {
     @Column(name = "zip_code", nullable = false)
     private String zipcode;
 
+    @Column(name = "city", nullable = false)
+    private String city;
+
     @Column(name = "state", nullable = false)
     private String state;
 
@@ -37,9 +40,6 @@ public class Address {
 
     @Column(name = "street_address", nullable = false)
     private String streetAddress;
-
-    @Column(name = "house_number", length = 5)
-    private String houseNumber;
 
     @Column(name = "unit_number", length = 5)
     private String unitNumber;
