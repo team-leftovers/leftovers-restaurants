@@ -1,7 +1,7 @@
 package com.leftovers.restaurants.controller;
 
-import com.leftovers.restaurants.dto.CreateFoodDto;
-import com.leftovers.restaurants.dto.UpdateFoodDto;
+import com.leftovers.restaurants.dto.CreateFoodDTO;
+import com.leftovers.restaurants.dto.UpdateFoodDTO;
 import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.service.FoodService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class FoodController {
 
     @RequestMapping(path = "", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Food> createFood(@Valid @RequestBody CreateFoodDto dto) {
+    public ResponseEntity<Food> createFood(@Valid @RequestBody CreateFoodDTO dto) {
         log.info("POST Food");
         var food = service.createNewFood(dto);
         var uri = URI.create(MAPPING + "/" + food.getId());
@@ -52,7 +52,7 @@ public class FoodController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Food> updateFood(@PathVariable Integer id, @Valid @RequestBody UpdateFoodDto dto) {
+    public ResponseEntity<Food> updateFood(@PathVariable Integer id, @Valid @RequestBody UpdateFoodDTO dto) {
         log.info("PUT Restaurant " + id);
         return ResponseEntity.of(Optional.ofNullable(service.updateFood(id, dto)));
     }

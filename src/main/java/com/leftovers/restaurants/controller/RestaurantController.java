@@ -1,8 +1,7 @@
 package com.leftovers.restaurants.controller;
 
-import com.leftovers.restaurants.dto.CreateRestaurantDto;
-import com.leftovers.restaurants.dto.UpdateRestaurantDto;
-import com.leftovers.restaurants.model.Food;
+import com.leftovers.restaurants.dto.CreateRestaurantDTO;
+import com.leftovers.restaurants.dto.UpdateRestaurantDTO;
 import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class RestaurantController {
 
     @RequestMapping(path = "", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Restaurant> postRestaurant(@Valid @RequestBody CreateRestaurantDto dto) {
+    public ResponseEntity<Restaurant> postRestaurant(@Valid @RequestBody CreateRestaurantDTO dto) {
         log.info("POST Restaurant");
         var restaurant = service.createNewRestaurant(dto);
         var uri = URI.create(MAPPING + "/" + restaurant.getId());
@@ -54,7 +53,7 @@ public class RestaurantController {
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Integer id,
-                                                       @Valid @RequestBody UpdateRestaurantDto dto) {
+                                                       @Valid @RequestBody UpdateRestaurantDTO dto) {
         log.info("PUT Restaurant " + id);
         return ResponseEntity.of(Optional.ofNullable(service.updateRestaurant(id, dto)));
     }
@@ -65,14 +64,4 @@ public class RestaurantController {
         service.deleteRestaurant(id);
         return ResponseEntity.noContent().build();
     }
-
-//    @RequestMapping(path = "/{id}/food", method = RequestMethod.GET,
-//            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-//    public ResponseEntity<List<Food>> getFoodFromRestaurant(@PathVariable Integer id) {
-//        log.info("POST Restaurant " + id + " Food");
-//        var food = service.getAllFoodByRestaurant(id);
-//        if(food.isEmpty())
-//            return ResponseEntity.noContent().build();
-//        return ResponseEntity.ok().body(food);
-//    }
 }
