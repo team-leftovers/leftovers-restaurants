@@ -24,11 +24,6 @@ public class Restaurant {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id", nullable = false)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Address address;
-
     @Column(name = "phone_no", length = 15)
     private String phoneNo;
 
@@ -49,7 +44,16 @@ public class Restaurant {
     @Builder.Default
     private Integer ratingCount = 0;
 
-    @OneToMany//(mappedBy = "restaurant", fetch = FetchType.LAZY)
-    @JoinColumn(name="restaurant_id")//, referencedColumnName = "id")
+    @Column(name = "address_id")
+    private Integer addressId;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    private Address address;
+
+    @OneToMany
+    @JoinColumn(name="restaurant_id")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<Food> menuItems;
 }
