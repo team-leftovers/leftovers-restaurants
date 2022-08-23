@@ -3,7 +3,6 @@ package com.leftovers.restaurants.service;
 import com.leftovers.restaurants.dto.CreateFoodDto;
 import com.leftovers.restaurants.dto.UpdateFoodDto;
 import com.leftovers.restaurants.exception.NoSuchFoodException;
-import com.leftovers.restaurants.exception.NoSuchRestaurantException;
 import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.repository.FoodRepository;
 import com.leftovers.restaurants.repository.RestaurantRepository;

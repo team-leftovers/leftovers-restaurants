@@ -37,7 +37,7 @@ public class Food {
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Food.class)
     @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="restaurant_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Restaurant restaurant;
 }

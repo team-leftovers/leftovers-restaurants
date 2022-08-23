@@ -94,14 +94,14 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new NoSuchRestaurantException(id);
     }
 
-//    @Override
-//    public List<Food> getAllFoodByRestaurant(Integer id) {
-//        notNull(id);
-//        var restaurant = restRepo.findRestaurantById(id);
-//        if(restaurant.isEmpty())
-//            throw new NoSuchRestaurantException(id);
-//        return restaurant.get().getMenuItems();
-//    }
+    @Override
+    public List<Food> getAllFoodByRestaurant(Integer id) {
+        notNull(id);
+        var restaurant = restRepo.findRestaurantById(id);
+        if(restaurant.isEmpty())
+            throw new NoSuchRestaurantException(id);
+        return restaurant.get().getMenuItems();
+    }
 
     // Utility function to determine if input was incorrectly null
     private void notNull(Object... ids) {
