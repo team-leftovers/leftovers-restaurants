@@ -1,10 +1,13 @@
 package com.leftovers.restaurants.dto;
 
+import lombok.Builder;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class CreateFoodDto {
+@Builder
+public class CreateFoodDTO {
     @NotNull
     @NotBlank(message = "Name is required")
     public String name;

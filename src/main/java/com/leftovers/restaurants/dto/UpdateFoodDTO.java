@@ -2,16 +2,17 @@ package com.leftovers.restaurants.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateFoodDto {
+public class UpdateFoodDTO {
+    @NotNull(message = "Food id is required")
+    public Integer id;
+
     @NotNull
     @NotBlank(message = "Name is required")
     public String name;
@@ -20,4 +21,7 @@ public class UpdateFoodDto {
 
     @NotNull(message = "Price is required")
     public BigDecimal price;
+
+    @NotNull(message = "Restaurant id is required")
+    public Integer restaurantId;
 }

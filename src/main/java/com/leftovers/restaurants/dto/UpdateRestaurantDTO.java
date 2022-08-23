@@ -2,20 +2,24 @@ package com.leftovers.restaurants.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.sql.Time;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateRestaurantDto {
+public class UpdateRestaurantDTO {
+    @NotNull(message = "Restaurant id is required")
+    public Integer id;
+
     @NotNull
     @NotBlank(message = "Restaurant name is required")
     public String name;
+
+    @NotNull(message = "Address id is required")
+    public Integer addressId;
 
     @NotNull
     @NotBlank(message = "Zipcode is required")
@@ -37,6 +41,8 @@ public class UpdateRestaurantDto {
     public String streetAddress;
 
     public String unitNumber;
+    public Double latitude;
+    public Double longitude;
 
     @NotNull
     @NotBlank(message = "Phone number is required")

@@ -2,17 +2,15 @@ package com.leftovers.restaurants.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.*;
 import java.sql.Time;
 
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateRestaurantDto {
+public class CreateRestaurantDTO {
     @NotNull
     @NotBlank(message = "Restaurant name is required")
     public String name;
