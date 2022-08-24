@@ -48,7 +48,7 @@ public class Restaurant {
     private Integer addressId;
 
     @OneToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", insertable = false, updatable = false)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Address address;
 

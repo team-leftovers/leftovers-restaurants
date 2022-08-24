@@ -1,9 +1,22 @@
 package com.leftovers.restaurants.mapper;
 
 import com.leftovers.restaurants.dto.AddressDTO;
+import com.leftovers.restaurants.dto.CreateRestaurantDTO;
+import com.leftovers.restaurants.dto.UpdateAddressDTO;
 import com.leftovers.restaurants.model.Address;
 
 public class AddressMapper {
+    public static Address toAddress(CreateRestaurantDTO dto) {
+        return Address.builder()
+                .zipcode(dto.zipcode)
+                .city(dto.city)
+                .state(dto.state)
+                .country(dto.country)
+                .streetAddress(dto.streetAddress)
+                .unitNumber(dto.unitNumber)
+                .build();
+    }
+
     public static AddressDTO toDTO(Address address) {
         return AddressDTO.builder()
                 .id(address.getId())

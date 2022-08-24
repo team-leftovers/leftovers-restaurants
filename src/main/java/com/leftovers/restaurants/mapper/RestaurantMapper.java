@@ -2,8 +2,11 @@ package com.leftovers.restaurants.mapper;
 
 import com.leftovers.restaurants.dto.*;
 import com.leftovers.restaurants.model.Address;
+import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.model.Restaurant;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class RestaurantMapper {
@@ -14,37 +17,7 @@ public class RestaurantMapper {
                 .website(dto.website)
                 .openTime(dto.openTime)
                 .closeTime(dto.closeTime)
-                .address(Address.builder()
-                        .zipcode(dto.zipcode)
-                        .city(dto.city)
-                        .state(dto.state)
-                        .country(dto.country)
-                        .streetAddress(dto.streetAddress)
-                        .unitNumber(dto.unitNumber)
-                    .build())
-            .build();
-    }
-
-    public static Restaurant toRestaurant(UpdateRestaurantDTO dto) {
-        return Restaurant.builder()
-                .id(dto.id)
-                .name(dto.name)
-                .phoneNo(dto.phoneNo)
-                .website(dto.website)
-                .openTime(dto.openTime)
-                .closeTime(dto.closeTime)
-                .addressId(dto.addressId)
-                .address(Address.builder()
-                        .id(dto.addressId)
-                        .zipcode(dto.zipcode)
-                        .city(dto.city)
-                        .state(dto.state)
-                        .country(dto.country)
-                        .streetAddress(dto.streetAddress)
-                        .unitNumber(dto.unitNumber)
-                        .latitude(dto.latitude)
-                        .longitude(dto.longitude)
-                    .build())
+                .menuItems(new ArrayList<Food>())
             .build();
     }
 

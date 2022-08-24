@@ -36,7 +36,7 @@ public class Address {
 
     @Column(name = "country", nullable = false)
     @Builder.Default
-    private final String country = "US";
+    private String country = "US";
 
     @Column(name = "street_address", nullable = false)
     private String streetAddress;

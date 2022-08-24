@@ -11,49 +11,9 @@ import java.sql.Time;
 @AllArgsConstructor
 @Builder
 public class UpdateRestaurantDTO {
-    @NotNull(message = "Restaurant id is required")
-    public Integer id;
-
-    @NotNull
-    @NotBlank(message = "Restaurant name is required")
     public String name;
-
-    @NotNull(message = "Address id is required")
-    public Integer addressId;
-
-    @NotNull
-    @NotBlank(message = "Zipcode is required")
-    @Pattern(regexp = "^\\d{5}(?:[-\\s]\\d{4})?$")
-    public String zipcode;
-
-    @NotNull
-    @NotBlank(message = "City is required")
-    public String city;
-
-    @NotNull
-    @NotBlank(message = "State is required")
-    public String state;
-
-    public String country;
-
-    @NotNull
-    @NotBlank(message = "Street Address is required")
-    public String streetAddress;
-
-    public String unitNumber;
-    public Double latitude;
-    public Double longitude;
-
-    @NotNull
-    @NotBlank(message = "Phone number is required")
-    //@Pattern(regexp = "^\\d{10,15}$", message = "Phone number must be between 10 and 15 numbers")
     public String phoneNo;
-
     public String website;
-
-    @NotNull(message = "Opening time is required")
     public Time openTime;
-
-    @NotNull(message = "Closing time is required")
     public Time closeTime;
 }

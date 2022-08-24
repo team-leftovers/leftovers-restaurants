@@ -16,10 +16,10 @@ import java.sql.Time;
 @RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class RestaurantDaoUnitTests {
-    @Autowired
-    RestaurantDao restaurants;
-    @Autowired
-    RestaurantController restaurantController;
+//    @Autowired
+//    RestaurantDao restaurants;
+//    @Autowired
+//    RestaurantController restaurantController;
 
 //    @BeforeAll
 //    static void setup() {
@@ -31,28 +31,28 @@ public class RestaurantDaoUnitTests {
 //
 //    }
 
-    @Test
-    @Order(1)
-    public void restaurantValidationTest() {
-        var result = restaurants.getLatestRestaurant();
-        assertFalse(restaurantController.restaurantInputValidation(result));
-
-        var r1 = new Restaurant();
-        assertFalse(restaurantController.restaurantInputValidation(r1));
-
-        r1.setOpenTime(new Time(010000));
-        assertFalse(restaurantController.restaurantInputValidation(r1));
-
-        r1.setCloseTime(new Time(200000));
-        assertFalse(restaurantController.restaurantInputValidation(r1));
-
-        r1.setPhoneNo("phone number");
-        assertFalse(restaurantController.restaurantInputValidation(r1));
-
-        r1.setAddressId(result.getAddressId());
-        assertFalse(restaurantController.restaurantInputValidation(r1));
-
-        r1.setName("name");
-        assertTrue(restaurantController.restaurantInputValidation(r1));
-    }
+//    @Test
+//    @Order(1)
+//    public void restaurantValidationTest() {
+//        var result = restaurants.getLatestRestaurant();
+//        assertFalse(restaurantController.restaurantInputValidation(result));
+//
+//        var r1 = new Restaurant();
+//        assertFalse(restaurantController.restaurantInputValidation(r1));
+//
+//        r1.setOpenTime(new Time(010000));
+//        assertFalse(restaurantController.restaurantInputValidation(r1));
+//
+//        r1.setCloseTime(new Time(200000));
+//        assertFalse(restaurantController.restaurantInputValidation(r1));
+//
+//        r1.setPhoneNo("phone number");
+//        assertFalse(restaurantController.restaurantInputValidation(r1));
+//
+//        r1.setAddressId(result.getAddressId());
+//        assertFalse(restaurantController.restaurantInputValidation(r1));
+//
+//        r1.setName("name");
+//        assertTrue(restaurantController.restaurantInputValidation(r1));
+//    }
 }

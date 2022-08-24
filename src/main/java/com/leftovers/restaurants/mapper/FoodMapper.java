@@ -16,16 +16,6 @@ public class FoodMapper {
             .build();
     }
 
-    public static Food toFood(UpdateFoodDTO dto) {
-        return Food.builder()
-                .id(dto.id)
-                .name(dto.name)
-                .description(dto.description)
-                .price(dto.price)
-                .restaurantId(dto.restaurantId)
-            .build();
-    }
-
     public static ShortFoodDTO toShortDTO(Food food) {
         return ShortFoodDTO.builder()
                 .id(food.getId())

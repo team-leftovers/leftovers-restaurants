@@ -1,7 +1,6 @@
 package com.leftovers.restaurants.controller;
 
-import com.leftovers.restaurants.dto.CreateRestaurantDTO;
-import com.leftovers.restaurants.dto.UpdateRestaurantDTO;
+import com.leftovers.restaurants.dto.*;
 import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +25,16 @@ public class RestaurantController {
 
     @RequestMapping(path = "", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Restaurant> postRestaurant(@Valid @RequestBody CreateRestaurantDTO dto) {
+    public ResponseEntity<FullRestaurantDTO> postRestaurant(@Valid @RequestBody CreateRestaurantDTO dto) {
         log.info("POST Restaurant");
         var restaurant = service.createNewRestaurant(dto);
-        var uri = URI.create(MAPPING + "/" + restaurant.getId());
+        var uri = URI.create(MAPPING + "/" + restaurant.id);
         return ResponseEntity.created(uri).body(restaurant);
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<List<Restaurant>> getAllRestaurants() {
+    public ResponseEntity<List<ShortRestaurantDTO>> getAllRestaurants() {
         log.info("GET Restaurants");
         var restaurants = service.getAllRestaurants();
         if(restaurants.isEmpty())
@@ -45,17 +44,17 @@ public class RestaurantController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Integer id) {
+    public ResponseEntity<FullRestaurantDTO> getRestaurantById(@PathVariable Integer id) {
         log.info("GET Restaurant " + id);
-        return ResponseEntity.of(Optional.ofNullable(service.getRestaurant(id)));
+        return ResponseEntity.ok(service.getRestaurant(id));
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Integer id,
+    public ResponseEntity<FullRestaurantDTO> updateRestaurant(@PathVariable Integer id,
                                                        @Valid @RequestBody UpdateRestaurantDTO dto) {
         log.info("PUT Restaurant " + id);
-        return ResponseEntity.of(Optional.ofNullable(service.updateRestaurant(id, dto)));
+        return ResponseEntity.ok(service.updateRestaurant(id, dto));
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
@@ -63,5 +62,13 @@ public class RestaurantController {
         log.info("DELETE Restaurant " + id);
         service.deleteRestaurant(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(path = "/{id}/address", method = RequestMethod.PUT,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<AddressDTO> updateRestaurantAddress(@PathVariable Integer id,
+                                                              @Valid @RequestBody UpdateAddressDTO dto) {
+        log.info("PUT Restaurant " + id + " Address");
+        return ResponseEntity.ok(service.updateRestaurantAddress(dto));
     }
 }

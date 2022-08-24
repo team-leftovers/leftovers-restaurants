@@ -10,18 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class UpdateFoodDTO {
-    @NotNull(message = "Food id is required")
-    public Integer id;
-
-    @NotNull
-    @NotBlank(message = "Name is required")
     public String name;
-
     public String description;
-
-    @NotNull(message = "Price is required")
     public BigDecimal price;
-
-    @NotNull(message = "Restaurant id is required")
-    public Integer restaurantId;
 }
