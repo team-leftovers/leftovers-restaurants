@@ -6,12 +6,11 @@ import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.repository.FoodRepository;
 import com.leftovers.restaurants.repository.RestaurantRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 import java.util.stream.Collectors;
 
@@ -25,25 +24,25 @@ public class SearchService {
 
 //    private final RestaurantService restaurantService;
 
-    public List<GetRestaurantDto> getRestaurantsByFood(String searchTerm)
+    public Set<GetRestaurantDto> getRestaurantsByFood(String searchTerm , List<String> tags)
     {
-        List<Food> foods = foodRepo.findFoodByNameContainingIgnoreCase(searchTerm); //searching foods
-        List<Restaurant> restaurants = restRepo.findRestaurantByNameContainingIgnoreCase(searchTerm);   //searching restaurants
+        List<Food> foods = foodRepo.findFoodBySearchTermWithTags(searchTerm , tags); //searching foods
+        List<Restaurant> restaurants = restRepo.findRestaurantBySearchTermWithTags(searchTerm , tags);   //searching restaurants
 
-        if(foods.isEmpty() && restaurants.isEmpty()) //check if both are empty
-            throw new NoSuchFoodException(1); // cause i am not searching for ID i am searching for a name that why send 1 to default the case
+//        if(foods.isEmpty() && restaurants.isEmpty()) //check if both are empty
+//            throw new NoSuchFoodException(1); // cause i am not searching for ID i am searching for a name that why send 1 to default the case
 
         List<Restaurant> rests = foods.stream().map(food -> {
             return food.getRestaurant();}).collect(Collectors.toList()); //get restaurants object from foods
 
-        List<Restaurant> result = new ArrayList<>() {{addAll(restaurants); addAll(rests); }};   //merge both lists foodname search restaurant name search
-
-        return result.stream().map(res -> {return convertEntityToDto(res);}).collect(Collectors.toList());
+        Set<Restaurant> result = new HashSet<>();
+        result.addAll(restaurants);
+        result.addAll(rests);
+        return result.stream().map(res -> {return convertEntityToDto(res);}).collect(Collectors.toSet());
     }
 
     public GetRestaurantDto convertEntityToDto(Restaurant restaurant) {
         GetRestaurantDto getRestaurantDto = modelMapper.map(restaurant , GetRestaurantDto.class);
         return getRestaurantDto;
     }
-
 }

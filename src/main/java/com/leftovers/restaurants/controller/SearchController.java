@@ -7,13 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -25,8 +24,9 @@ public class SearchController {
     private final SearchService service;
 
     @RequestMapping(path = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<GetRestaurantDto>> getRestaurantByFood(@RequestParam String foodName) {
-        log.info("Searching for Restaurants by foodName" + foodName);
-        return ResponseEntity.of(Optional.ofNullable(service.getRestaurantsByFood(foodName)));
+    public ResponseEntity<Set<GetRestaurantDto>> getRestaurantByFood(@RequestParam String foodName , @RequestBody String tagsFromFront) {
+        log.info("Searching for Restaurants by foodName" + foodName + "  tags   " + tagsFromFront);
+        List<String> tags = Arrays.asList(tagsFromFront.split(","));
+        return ResponseEntity.of(Optional.ofNullable(service.getRestaurantsByFood(foodName , tags)));
     }
 }
