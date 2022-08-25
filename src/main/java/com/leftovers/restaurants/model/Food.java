@@ -1,63 +1,38 @@
 package com.leftovers.restaurants.model;
 
+import lombok.*;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name="product")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="tbl_food")
 public class Food {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id" , nullable = false)
-    private int id;
+    private Integer id;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "restaurant_id")
     private Integer restaurantId;
     @Column(name = "price")
-    private float price;
+    private BigDecimal price;
+
     @Column(name = "description")
     private String description;
 
-    public Food() {}
+    @Column(name = "restaurant_id")
+    private int restaurantId;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(Integer restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="restaurant_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Restaurant restaurant;
 }

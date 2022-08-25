@@ -1,82 +1,72 @@
 package com.leftovers.restaurants.controller;
 
-import com.leftovers.restaurants.dao.AddressDao;
-import com.leftovers.restaurants.dao.RestaurantDao;
-import com.leftovers.restaurants.model.Restaurant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.leftovers.restaurants.dto.*;
+import com.leftovers.restaurants.service.RestaurantService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/restaurants")
+@RequiredArgsConstructor
 public class RestaurantController {
-    @Autowired
-    RestaurantDao restaurants;
-
-    @Autowired
-    AddressDao addresses;
+    private static final String MAPPING = "/restaurants";
+    private final RestaurantService service;
 
 
-    // Restaurant Generation
-    @RequestMapping(path = "", method = RequestMethod.POST)
-    public ResponseEntity<Restaurant> postRestaurant(@RequestBody Restaurant r) {
-        if(!restaurantInputValidation(r))
-            return new ResponseEntity<Restaurant>(HttpStatus.NOT_ACCEPTABLE);
-
-        if(!restaurants.addRestaurant(r))
-            return new ResponseEntity<Restaurant>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        return new ResponseEntity<Restaurant>(r,HttpStatus.CREATED);
+    @RequestMapping(path = "", method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullRestaurantDTO> postRestaurant(@Valid @RequestBody CreateRestaurantDTO dto) {
+        log.info("POST Restaurant");
+        var restaurant = service.createNewRestaurant(dto);
+        var uri = URI.create(MAPPING + "/" + restaurant.id);
+        return ResponseEntity.created(uri).body(restaurant);
     }
 
-    // Restaurant Deletion
+    @RequestMapping(path = "", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<ShortRestaurantDTO>> getAllRestaurants() {
+        log.info("GET Restaurants");
+        var restaurants = service.getAllRestaurants();
+        if(restaurants.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(restaurants);
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullRestaurantDTO> getRestaurantById(@PathVariable Integer id) {
+        log.info("GET Restaurant " + id);
+        return ResponseEntity.ok(service.getRestaurant(id));
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullRestaurantDTO> updateRestaurant(@PathVariable Integer id,
+                                                       @Valid @RequestBody UpdateRestaurantDTO dto) {
+        log.info("PUT Restaurant " + id);
+        return ResponseEntity.ok(service.updateRestaurant(id, dto));
+    }
+
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Restaurant> deleteRestaurant(@PathVariable Integer id) {
-        var result = restaurants.getRestaurant(id);
-        if(result == null) return new ResponseEntity<Restaurant>(HttpStatus.GONE);
-
-        restaurants.deleteRestaurant(id);
-        return new ResponseEntity<Restaurant>(HttpStatus.OK);
+    public ResponseEntity<String> deleteRestaurant(@PathVariable Integer id) {
+        log.info("DELETE Restaurant " + id);
+        service.deleteRestaurant(id);
+        return ResponseEntity.noContent().build();
     }
 
-    // Restaurant Getters
-    @RequestMapping(path = "", method = RequestMethod.GET)
-    public ResponseEntity<Iterable<Restaurant>> getAllRestaurants() {
-        var result = restaurants.getAllRestaurants();
-        return new ResponseEntity<Iterable<Restaurant>>(result, HttpStatus.OK);
-    }
-
-    @RequestMapping(path = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Integer id) {
-        var result = restaurants.getRestaurant(id);
-        if(result == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @RequestMapping(path = "", params = "name", method = RequestMethod.GET)
-    public ResponseEntity<Iterable<Restaurant>> getRestaurantsByName(@RequestParam(value = "name") String name) {
-        var result = restaurants.getRestaurantByNameContaining(name);
-        if(result == null || StreamSupport.stream(result.spliterator(), false).findAny().isEmpty())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-
-    // Validations
-    boolean restaurantInputValidation(Restaurant r) {
-        // Check if id exists
-        if(r.getId() != null) {
-            var result = restaurants.getRestaurant(r.getId());
-            if(result != null) return false;
-        }
-
-        return r.getName() != null && r.getAddressId() != null && r.getPhoneNo() != null
-                && r.getCloseTime() != null && r.getOpenTime() != null;
+    @RequestMapping(path = "/{id}/address", method = RequestMethod.PUT,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<AddressDTO> updateRestaurantAddress(@PathVariable Integer id,
+                                                              @Valid @RequestBody UpdateAddressDTO dto) {
+        log.info("PUT Restaurant " + id + " Address");
+        return ResponseEntity.ok(service.updateRestaurantAddress(dto));
     }
 }

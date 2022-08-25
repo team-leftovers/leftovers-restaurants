@@ -1,87 +1,66 @@
 package com.leftovers.restaurants.controller;
 
-import com.leftovers.restaurants.dao.FoodDao;
-import com.leftovers.restaurants.model.Food;
+import com.leftovers.restaurants.dto.CreateFoodDTO;
+import com.leftovers.restaurants.dto.FullFoodDTO;
+import com.leftovers.restaurants.dto.ShortFoodDTO;
+import com.leftovers.restaurants.dto.UpdateFoodDTO;
 import com.leftovers.restaurants.service.FoodService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/food")
+@RequiredArgsConstructor
 public class FoodController {
+    private static final String MAPPING = "/food";
+    private final FoodService service;
 
-    @Autowired
-    FoodService foodService;
 
-    @GetMapping(path = "")
-    public List<Food> getAll() {
-        return foodService.getAll();
-    }
-    @RequestMapping(path = "/addFood" , method = RequestMethod.POST)
-    public String addFood(@RequestBody Food food) {
-        System.out.println(food.getName());
-        if (foodService.addFood(food))
-        {
-            return "Item Added Succesfully";
-        }
-        return "An Error Occured";
-
+    @RequestMapping(path = "", method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullFoodDTO> createFood(@Valid @RequestBody CreateFoodDTO dto) {
+        log.info("POST Food");
+        var food = service.createNewFood(dto);
+        var uri = URI.create(MAPPING + "/" + food.id);
+        return  ResponseEntity.created(uri).body(food);
     }
 
-    @RequestMapping(path = "/by-id/{id}" , method = RequestMethod.GET)
-    public Optional<Food> getFoodById(@PathVariable Integer id) {
-        return foodService.getFoodById(id);
+    @RequestMapping(path = "", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<ShortFoodDTO>> getAllFood() {
+        log.info("GET Food");
+        var food = service.getAllFood();
+        if(food.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(food);
     }
 
-    @RequestMapping(path = "/{name}" , method = RequestMethod.GET)
-    public List<Food> getFoodByName(@PathVariable String name) {
-        return foodService.getFoodByName(name);
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullFoodDTO> getFoodById(@PathVariable Integer id) {
+        log.info("GET Food " + id);
+        return ResponseEntity.ok(service.getFood(id));
     }
 
-    @PutMapping(path = "/update-name/{id}")
-    public String updateFoodName(@PathVariable Integer id , @RequestParam String name ) {
-        if (foodService.updateFoodName(id , name)) {
-            return "Updated Successfully";
-        }
-        else {
-            return "and error occured";
-        }
-    }
-    @PutMapping(path = "/update-price/{id}")
-    public String updateFoodPricce(@PathVariable Integer id , @RequestParam float price ) {
-        if (foodService.updateFoodPrice(id , price)) {
-            return "Updated Successfully";
-        }
-        else {
-            return "and error occured";
-        }
+    @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullFoodDTO> updateFood(@PathVariable Integer id, @Valid @RequestBody UpdateFoodDTO dto) {
+        log.info("PUT Restaurant " + id);
+        return ResponseEntity.ok(service.updateFood(id, dto));
     }
 
-    @PutMapping(path = "/update-description/{id}")
-    public String updateFoodDescription(@PathVariable Integer id , @RequestParam String description ) {
-        if (foodService.updateFoodDescription(id , description)) {
-            return "Updated Successfully";
-        }
-        else {
-            return "and error occured";
-        }
-    }
-
-    @PutMapping(path = "/update-restaurant/{id}")
-    public String updateFoodRestaurant(@PathVariable Integer id , @RequestParam Integer restaurantId ) {
-        if (foodService.updateFoodRestaurant(id , restaurantId)) {
-            return "Updated Successfully";
-        }
-        else {
-            return "and error occured";
-        }
-    }
-
-    @DeleteMapping(path = "/delete")
-    public String deleteByid(@RequestParam Integer id) {
-        return foodService.deleteById(id);
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteFood(@PathVariable Integer id) {
+        log.info("DELETE Food " + id);
+        service.deleteFood(id);
+        return ResponseEntity.noContent().build();
     }
 }
