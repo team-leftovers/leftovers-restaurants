@@ -49,7 +49,7 @@ VALUES ("Old Milk Cheese Factory", (SELECT id FROM tbl_address WHERE id = 4 LIMI
         "stank@cheese.com", "2:56", "19:00", 2, 41);
 INSERT INTO tbl_restaurant (name, address_id, phone_no, website, open_time, close_time, rating, rating_count)
 VALUES ("Key Depot", (SELECT id FROM tbl_address WHERE id = 5 LIMIT 1), "555-777-PLZ!", "key@foreign.com", "12:00",
-        "0:00", 11, 1);
+        "0:00", 1, 1);
 INSERT INTO tbl_restaurant (name, address_id, phone_no, website, open_time, close_time, rating, rating_count)
 VALUES ("Other Garbage Heap", (SELECT id FROM tbl_address WHERE id = 6 LIMIT 1), "555-444-4444", "garbage@here.com",
         "21:00", "7:00", 2, 56);

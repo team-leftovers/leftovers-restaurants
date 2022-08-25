@@ -1,7 +1,6 @@
 package com.leftovers.restaurants.controller;
 
 import com.leftovers.restaurants.dto.*;
-import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController

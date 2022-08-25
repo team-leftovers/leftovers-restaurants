@@ -32,11 +32,11 @@ JSON formats at bottom of page.
 - 400 Bad Request: on passing invalid id
 - 404 Not Found: on failure to find the restaurant
 
-## `/restaurants/{id}/food`
-### GET:
-- 200 OK:  JSON list of food associated with restaurant
-- 204 No Content: if no food has been added to restaurant
-- 404 Not Found: on failure to find the restaurant
+## `/restaurants/{id}/address`
+### PUT:
+- 200 OK:  JSON object of updated address associated with restaurant
+- 400 Bad Request: on passing invalid id
+- 404 Not Found: on failure to find the address
 
 ## `/food`
 ### POST:
@@ -76,11 +76,17 @@ JSON formats at bottom of page.
 <br>
 
 ## Restaurant JSON DTOs
-### Restaurant JSON:
+### Full Restaurant DTO:
 ```json
 {
   "id": "int",
   "name": "string",
+  "phoneNo": "string",
+  "website": "string",
+  "openTime": "time",
+  "closeTime": "time",
+  "rating": "decimal",
+  "ratingCount": "int",
   "address": {
     "id": "int",
     "latitude": "real",
@@ -92,59 +98,57 @@ JSON formats at bottom of page.
     "streetAddress": "string",
     "unitNumber": "string? (Nullable)"
   },
-  "phoneNo": "string",
-  "website": "string",
-  "openTime": "time",
-  "closeTime": "time",
-  "rating": "decimal",
-  "ratingCount": "int",
-  "menuItems": [
+  "food": [
     {
       "id": "int",
       "name": "string",
-      "price": "decimal",
-      "description": "string"
+      "price": "decimal"
     }
   ]
 }
 ```
 
-### Restaurant Creation JSON:
+### Short Restaurant DTO:
+```json
+{
+  "id": "int",
+  "name": "string",
+  "openTime": "string",
+  "closeTime": "string",
+  "rating": "decimal"
+}
+```
+
+### Create Restaurant DTO:
 ```json
 {
   "name": "string", 
   "zipcode": "string",
   "city": "string",
   "state": "string",
-  "country": "string",
+  "country": "string? (Nullable)",
   "streetAddress": "string",
   "unitNumber": "string? (Nullable)", 
   "phoneNo": "string",
-  "website": "string",
+  "website": "string? (Nullable)",
   "openTime": "time",
   "closeTime": "time"
 }
 ```
 
-### Restaurant Update JSON:
+### Restaurant Update DTO:
 ```json
 {
-  "name": "string",
-  "zipcode": "string", 
-  "city": "string",
-  "state": "string",   
-  "country": "string", 
-  "streetAddress": "string",
-  "unitNumber": "string? (Nullable)",   
-  "phone_no": "string",
-  "website": "string", 
-  "openTime": "time",  
-  "closeTime": "time"  
+  "name": "string? (Nullable)",
+  "phone_no": "string? (Nullable)",
+  "website": "string? (Nullable)", 
+  "openTime": "time? (Nullable)",  
+  "closeTime": "time? (Nullable)"  
 }
 ```
 
 ## Food JSON DTOs
-### Food JSON
+### Full Food DTO
 ```json
 {
   "id": "int",
@@ -155,29 +159,61 @@ JSON formats at bottom of page.
 }
 ```
 
-### Food Creation JSON
+### Short Food DTO
+```json
+{
+  "id": "int",
+  "name": "string",
+  "price": "decimal"
+}
+```
+
+### Food Creation DTO
 ```json
 {
   "name": "string",
-  "description": "string",
+  "description": "string? (Nullable)",
   "price": "decimal",
   "restaurantId": "int"
 }
 ```
 
-### Food Update JSON
+### Food Update DTO
 ```json
 {
-  "name": "string",       
-  "description": "string",
-  "price": "decimal"
+  "name": "string? (Nullable)",       
+  "description": "string? (Nullable)",
+  "price": "decimal? (Nullable)"
 }
 ```
 
-## Search JSON DTOs
-### Search JSON
+## Address JSON DTOs
+### Address DTO
 ```json
 {
-  "term": "string"
+    "id": "int",
+    "latitude": "double",
+    "longitude": "double",
+    "zipcode": "string",
+    "city": "string",
+    "state": "string",
+    "country": "string",
+    "streetAddress": "string",
+    "unitNumber": "string"
+}
+```
+
+### Address Update DTO
+```json
+{
+  "id": "int",
+  "zipcode": "string? (Nullable)",
+  "city": "string? (Nullable)",
+  "state": "string? (Nullable)",
+  "country": "string? (Nullable)",
+  "streetAddress": "string? (Nullable)",
+  "unitNumber": "string? (Nullable)",
+  "latitude": "double? (Nullable)",
+  "longitude": "double? (Nullable)"
 }
 ```

@@ -3,7 +3,6 @@ package com.leftovers.restaurants.mapper;
 import com.leftovers.restaurants.dto.CreateFoodDTO;
 import com.leftovers.restaurants.dto.FullFoodDTO;
 import com.leftovers.restaurants.dto.ShortFoodDTO;
-import com.leftovers.restaurants.dto.UpdateFoodDTO;
 import com.leftovers.restaurants.model.Food;
 
 public class FoodMapper {

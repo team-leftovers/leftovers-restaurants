@@ -2,7 +2,6 @@ package com.leftovers.restaurants.mapper;
 
 import com.leftovers.restaurants.dto.AddressDTO;
 import com.leftovers.restaurants.dto.CreateRestaurantDTO;
-import com.leftovers.restaurants.dto.UpdateAddressDTO;
 import com.leftovers.restaurants.model.Address;
 
 public class AddressMapper {

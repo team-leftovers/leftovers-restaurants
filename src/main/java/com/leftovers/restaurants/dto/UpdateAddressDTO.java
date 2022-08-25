@@ -1,9 +1,11 @@
 package com.leftovers.restaurants.dto;
 
-import javax.validation.constraints.NotBlank;
+import lombok.Builder;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+@Builder
 public class UpdateAddressDTO {
     @NotNull(message = "Address id is required")
     public Integer id;

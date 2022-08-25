@@ -1,12 +1,10 @@
 package com.leftovers.restaurants.mapper;
 
 import com.leftovers.restaurants.dto.*;
-import com.leftovers.restaurants.model.Address;
 import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.model.Restaurant;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class RestaurantMapper {

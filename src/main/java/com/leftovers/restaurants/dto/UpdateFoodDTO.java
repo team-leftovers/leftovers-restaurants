@@ -3,7 +3,6 @@ package com.leftovers.restaurants.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 @NoArgsConstructor

@@ -4,7 +4,6 @@ import com.leftovers.restaurants.dto.CreateFoodDTO;
 import com.leftovers.restaurants.dto.FullFoodDTO;
 import com.leftovers.restaurants.dto.ShortFoodDTO;
 import com.leftovers.restaurants.dto.UpdateFoodDTO;
-import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController

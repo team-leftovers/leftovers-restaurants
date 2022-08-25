@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS tbl_address(
 CREATE TABLE IF NOT EXISTS tbl_discount(
     id INT AUTO_INCREMENT NOT NULL,
     code VARCHAR(255) NOT NULL,
-    percent DECIMAL NOT NULL,
-    value DECIMAL NOT NULL,
+    percent DECIMAL(10,2) NOT NULL,
+    value DECIMAL(10,2) NOT NULL,
     PRIMARY KEY(id)
 );
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS tbl_restaurant(
     website VARCHAR(255),
     open_time TIME NOT NULL,
     close_time TIME NOT NULL,
-    rating DECIMAL,
+    rating DECIMAL(3,2),
     rating_count INT,
     PRIMARY KEY(id),
     FOREIGN KEY (address_id) REFERENCES tbl_address(id)
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS tbl_food(
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(255) NOT NULL,
     restaurant_id INT NOT NULL,
-    price DECIMAL NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
     description TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (restaurant_id) REFERENCES tbl_restaurant(id)
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS tbl_restaurant_admin(
 CREATE TABLE IF NOT EXISTS tbl_driver(
     account_id INT NOT NULL,
     license_plate VARCHAR(255) NOT NULL,
-    rating DECIMAL NOT NULL,
+    rating DECIMAL(3,2) NOT NULL,
     PRIMARY KEY (account_id),
     FOREIGN KEY (account_id) REFERENCES tbl_account(id)
 );
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS tbl_order(
     restaurant_id INT NOT NULL,
     discount_id INT,
     status ENUM('pending', 'accepted', 'working', 'waiting', 'delivery', 'delivered', 'cancelled', 'error') NOT NULL,
-    total_price DECIMAL NOT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (driver_id) REFERENCES tbl_driver(account_id),
     FOREIGN KEY (customer_id) REFERENCES tbl_customer(account_id),
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS tbl_order_item(
     order_id INT NOT NULL,
     food_id INT NOT NULL,
     quantity INT NOT NULL,
-    price DECIMAL NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
     additional_instructions TEXT,
     driver_rating INT,
     food_rating INT,

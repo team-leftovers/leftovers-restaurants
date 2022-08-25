@@ -1,7 +1,6 @@
 package com.leftovers.restaurants.service;
 
 import com.leftovers.restaurants.dto.*;
-import com.leftovers.restaurants.model.Restaurant;
 
 import java.util.List;
 
