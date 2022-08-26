@@ -5,6 +5,7 @@ import com.leftovers.restaurants.exception.NoSuchAddressException;
 import com.leftovers.restaurants.exception.NoSuchRestaurantException;
 import com.leftovers.restaurants.mapper.AddressMapper;
 import com.leftovers.restaurants.mapper.RestaurantMapper;
+import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.repository.AddressRepository;
 import com.leftovers.restaurants.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -74,6 +75,15 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new NoSuchRestaurantException(id);
     }
 
+    @Override
+    public List<Food> getAllFoodByRestaurant(Integer id) {
+        notNull(id);
+        var restaurant = restRepo.findRestaurantById(id);
+        if(restaurant.isEmpty())
+            throw new NoSuchRestaurantException(id);
+        return restaurant.get().getMenuItems();
+    }
+
     @Transactional
     @Override
     public AddressDTO updateRestaurantAddress(UpdateAddressDTO dto) {
@@ -95,5 +105,13 @@ public class RestaurantServiceImpl implements RestaurantService {
     private <T> void ifNotNull(T val, Consumer<T> func) {
         if(val != null)
             func.accept(val);
+    }
+
+    // Utility function to determine if input was incorrectly null
+    private void notNull(Object... ids) {
+        for(var id: ids) {
+            if (id == null)
+                throw new IllegalArgumentException("Expected value but received null.");
+        }
     }
 }
