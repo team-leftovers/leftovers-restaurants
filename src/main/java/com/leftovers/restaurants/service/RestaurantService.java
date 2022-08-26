@@ -1,17 +1,16 @@
 package com.leftovers.restaurants.service;
 
-import com.leftovers.restaurants.dto.CreateRestaurantDto;
-import com.leftovers.restaurants.dto.UpdateRestaurantDto;
+import com.leftovers.restaurants.dto.*;
 import com.leftovers.restaurants.model.Food;
-import com.leftovers.restaurants.model.Restaurant;
 
 import java.util.List;
 
 public interface RestaurantService {
-    Restaurant createNewRestaurant(CreateRestaurantDto dto);
-    List<Restaurant> getAllRestaurants();
-    Restaurant getRestaurant(Integer id);
-    Restaurant updateRestaurant(Integer id, UpdateRestaurantDto dto);
+    FullRestaurantDTO createNewRestaurant(CreateRestaurantDTO dto);
+    List<ShortRestaurantDTO> getAllRestaurants();
+    FullRestaurantDTO getRestaurant(Integer id);
+    FullRestaurantDTO updateRestaurant(Integer id, UpdateRestaurantDTO dto);
     void deleteRestaurant(Integer id);
     List<Food> getAllFoodByRestaurant(Integer id);
+    AddressDTO updateRestaurantAddress(UpdateAddressDTO dto);
 }

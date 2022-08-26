@@ -1,17 +1,25 @@
 package com.leftovers.restaurants.service;
 
-import com.leftovers.restaurants.dto.CreateFoodDto;
-import com.leftovers.restaurants.dto.UpdateFoodDto;
+import com.leftovers.restaurants.dto.CreateFoodDTO;
+import com.leftovers.restaurants.dto.FullFoodDTO;
+import com.leftovers.restaurants.dto.ShortFoodDTO;
+import com.leftovers.restaurants.dto.UpdateFoodDTO;
 import com.leftovers.restaurants.exception.NoSuchFoodException;
-import com.leftovers.restaurants.model.Food;
+import com.leftovers.restaurants.exception.NoSuchRestaurantException;
+import com.leftovers.restaurants.mapper.FoodMapper;
 import com.leftovers.restaurants.repository.FoodRepository;
 import com.leftovers.restaurants.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FoodServiceImpl implements FoodService {
@@ -20,66 +28,57 @@ public class FoodServiceImpl implements FoodService {
 
     @Transactional
     @Override
-    public Food createNewFood(CreateFoodDto dto) {
-        notNull(dto);
-//        var restaurant = restRepo.findRestaurantById(dto.restaurantId);
-//        if(restaurant.isEmpty())
-//            throw new NoSuchRestaurantException(dto.restaurantId);
+    public FullFoodDTO createNewFood(CreateFoodDTO dto) {
+        try {
+            var food = foodRepo.save(FoodMapper.toFood(dto));
+            return FoodMapper.toFullDTO(food);
+        }
 
-        //try catch foreign key exception
-        Food food = Food.builder()
-                .name(dto.name)
-                .description(dto.description)
-                .price(dto.price)
-//                .restaurant(dto.restaurantId)
-                .restaurantId(dto.restaurantId)
-            .build();
-
-        return foodRepo.save(food);
+        catch(Exception e) {
+            log.error(e.getMessage());
+            throw new NoSuchRestaurantException(dto.restaurantId);
+        }
     }
 
     @Override
-    public List<Food> getAllFood() {
-        return foodRepo.findAll();
+    public List<ShortFoodDTO> getAllFood() {
+        return foodRepo.findAll().stream()
+                .map(item -> FoodMapper.toShortDTO(item))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Food getFood(Integer id) {
-        notNull(id);
-        return foodRepo.findFoodById(id)
+    public FullFoodDTO getFood(Integer id) {
+        var food = foodRepo.findFoodById(id)
                 .orElseThrow(() -> new NoSuchFoodException(id));
+
+        return FoodMapper.toFullDTO(food);
     }
 
     @Transactional
     @Override
-    public Food updateFood(Integer id, UpdateFoodDto dto) {
-        notNull(id, dto);
-        var result = foodRepo.findFoodById(id);
-        if(result.isEmpty())
-            throw new NoSuchFoodException(id);
+    public FullFoodDTO updateFood(Integer id, UpdateFoodDTO dto) {
+        var food = foodRepo.findFoodById(id)
+                .orElseThrow(() -> new NoSuchFoodException(id));
 
-        Food food = result.get();
-        food.setName(dto.name);
-        food.setPrice(dto.price);
-        food.setDescription(dto.description);
+        ifNotNull(dto.name, food::setName);
+        ifNotNull(dto.description, food::setDescription);
+        ifNotNull(dto.price, food::setPrice);
 
-        return foodRepo.save(food);
+        return FoodMapper.toFullDTO(foodRepo.save(food));
     }
 
     @Transactional
     @Override
     public void deleteFood(Integer id) {
-        notNull(id);
         if(foodRepo.deleteFoodById(id) == 0)
             throw new NoSuchFoodException(id);
     }
 
 
-    // Utility function to determine if input was incorrectly null
-    private void notNull(Object... ids) {
-        for(var id: ids) {
-            if(id == null)
-                throw new IllegalArgumentException("Expected value but received null.");
-        }
+    // Utility function to execute function if value not null
+    private <T> void ifNotNull(T val, Consumer<T> func) {
+        if(val != null)
+            func.accept(val);
     }
 }

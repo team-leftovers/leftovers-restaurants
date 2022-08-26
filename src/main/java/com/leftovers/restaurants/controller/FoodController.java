@@ -1,8 +1,9 @@
 package com.leftovers.restaurants.controller;
 
-import com.leftovers.restaurants.dto.CreateFoodDto;
-import com.leftovers.restaurants.dto.UpdateFoodDto;
-import com.leftovers.restaurants.model.Food;
+import com.leftovers.restaurants.dto.CreateFoodDTO;
+import com.leftovers.restaurants.dto.FullFoodDTO;
+import com.leftovers.restaurants.dto.ShortFoodDTO;
+import com.leftovers.restaurants.dto.UpdateFoodDTO;
 import com.leftovers.restaurants.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -26,16 +26,16 @@ public class FoodController {
 
     @RequestMapping(path = "", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Food> createFood(@Valid @RequestBody CreateFoodDto dto) {
+    public ResponseEntity<FullFoodDTO> createFood(@Valid @RequestBody CreateFoodDTO dto) {
         log.info("POST Food");
         var food = service.createNewFood(dto);
-        var uri = URI.create(MAPPING + "/" + food.getId());
+        var uri = URI.create(MAPPING + "/" + food.id);
         return  ResponseEntity.created(uri).body(food);
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<List<Food>> getAllFood() {
+    public ResponseEntity<List<ShortFoodDTO>> getAllFood() {
         log.info("GET Food");
         var food = service.getAllFood();
         if(food.isEmpty())
@@ -45,16 +45,16 @@ public class FoodController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Food> getFoodById(@PathVariable Integer id) {
+    public ResponseEntity<FullFoodDTO> getFoodById(@PathVariable Integer id) {
         log.info("GET Food " + id);
-        return ResponseEntity.of(Optional.ofNullable(service.getFood(id)));
+        return ResponseEntity.ok(service.getFood(id));
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Food> updateFood(@PathVariable Integer id, @Valid @RequestBody UpdateFoodDto dto) {
+    public ResponseEntity<FullFoodDTO> updateFood(@PathVariable Integer id, @Valid @RequestBody UpdateFoodDTO dto) {
         log.info("PUT Restaurant " + id);
-        return ResponseEntity.of(Optional.ofNullable(service.updateFood(id, dto)));
+        return ResponseEntity.ok(service.updateFood(id, dto));
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
