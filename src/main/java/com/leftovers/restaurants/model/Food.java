@@ -21,8 +21,6 @@ public class Food {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "restaurant_id")
-    private Integer restaurantId;
     @Column(name = "price")
     private BigDecimal price;
 
