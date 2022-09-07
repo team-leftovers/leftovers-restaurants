@@ -1,18 +1,13 @@
 package com.leftovers.restaurants.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leftovers.restaurants.DeleteResultHandler;
-import com.leftovers.restaurants.dto.CreateFoodDTO;
 import com.leftovers.restaurants.dto.CreateTagDTO;
-import com.leftovers.restaurants.dto.UpdateFoodDTO;
 import com.leftovers.restaurants.dto.UpdateTagDTO;
-import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.model.Tag;
-import com.leftovers.restaurants.repository.FoodRepository;
 import com.leftovers.restaurants.repository.TagRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,13 +17,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TagControllerTests {
     @Autowired
     private MockMvc mvc;
@@ -41,7 +36,7 @@ public class TagControllerTests {
     private UpdateTagDTO validUpdateDTO;
     private final String endpoint = "/tags";
 
-    @BeforeEach
+    @BeforeAll
     void setUp() {
         validTag = Tag.builder()
                 .id(1)
@@ -62,11 +57,6 @@ public class TagControllerTests {
             .build();
     }
 
-    @AfterEach
-    void tearDown() {
-
-    }
-
     @org.junit.jupiter.api.Test
     public void PostFoodTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders
@@ -75,12 +65,21 @@ public class TagControllerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(validTag.getName()))
-                .andDo(DeleteResultHandler.deleteResult(repo));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(validTag.getName()));
     }
 
     @org.junit.jupiter.api.Test
     public void getAllFoodTest() throws Exception {
+        repo.deleteAll();
+        mvc.perform(MockMvcRequestBuilders
+                        .get(endpoint)
+                        .content(asJsonString(validCreateDTO))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        repo.save(validTag);
+
         mvc.perform(MockMvcRequestBuilders
                         .get(endpoint)
                         .content(asJsonString(validCreateDTO))
@@ -91,8 +90,10 @@ public class TagControllerTests {
 
     @org.junit.jupiter.api.Test
     public void getFoodByIdTest() throws Exception {
+        var result = repo.save(validTag);
+
         mvc.perform(MockMvcRequestBuilders
-                        .get(endpoint + "/1")
+                        .get(endpoint + "/" + result.getId())
                         .content(asJsonString(validCreateDTO))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -101,39 +102,23 @@ public class TagControllerTests {
 
     @org.junit.jupiter.api.Test
     public void putFoodTest() throws Exception {
-        var result = mvc.perform(MockMvcRequestBuilders
-                        .post(endpoint)
-                        .content(asJsonString(validCreateDTO))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andReturn();
+        var result = repo.save(validTag);
 
         mvc.perform(MockMvcRequestBuilders
-                        .put(endpoint + "/" + getIdFromResult(result))
+                        .put(endpoint + "/" + result.getId())
                         .content(asJsonString(validUpdateDTO))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(validUpdateTag.getName()));
-
-        mvc.perform(MockMvcRequestBuilders
-                        .delete(endpoint + "/" + getIdFromResult(result)))
-                .andExpect(status().isNoContent());
     }
 
     @org.junit.jupiter.api.Test
     public void deleteFoodTest() throws Exception {
-        var result = mvc.perform(MockMvcRequestBuilders
-                        .post(endpoint)
-                        .content(asJsonString(validCreateDTO))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andReturn();
+        var result = repo.save(validTag);
 
         mvc.perform(MockMvcRequestBuilders
-                        .delete(endpoint + "/" + getIdFromResult(result)))
+                        .delete(endpoint + "/" + result.getId()))
                 .andExpect(status().isNoContent());
     }
 
