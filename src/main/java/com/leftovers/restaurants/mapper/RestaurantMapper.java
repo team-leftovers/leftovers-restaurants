@@ -44,6 +44,10 @@ public class RestaurantMapper {
                         .stream()
                         .map(item -> FoodMapper.toShortDTO(item))
                         .collect(Collectors.toList()))
+                .tags(restaurant.getRestaurantTags()
+                        .stream()
+                        .map(item -> TagMapper.toDto(item))
+                        .collect(Collectors.toSet()))
             .build();
     }
 }

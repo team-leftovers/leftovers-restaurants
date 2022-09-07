@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -56,4 +57,10 @@ public class Restaurant {
     @JoinColumn(name="restaurant_id")
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<Food> menuItems;
+
+    @ManyToMany
+    @JoinTable(name = "tbl_restaurant_tag",
+        joinColumns = { @JoinColumn(name = "restaurant_id") },
+        inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+    private Set<Tag> restaurantTags;
 }

@@ -3,16 +3,21 @@ package com.leftovers.restaurants.service;
 import com.leftovers.restaurants.dto.*;
 import com.leftovers.restaurants.exception.NoSuchAddressException;
 import com.leftovers.restaurants.exception.NoSuchRestaurantException;
+import com.leftovers.restaurants.exception.NoSuchRestaurantTagException;
+import com.leftovers.restaurants.exception.NoSuchTagException;
 import com.leftovers.restaurants.mapper.AddressMapper;
 import com.leftovers.restaurants.mapper.RestaurantMapper;
 import com.leftovers.restaurants.model.Food;
+import com.leftovers.restaurants.model.Tag;
 import com.leftovers.restaurants.repository.AddressRepository;
 import com.leftovers.restaurants.repository.RestaurantRepository;
+import com.leftovers.restaurants.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -23,6 +28,7 @@ import java.util.stream.Collectors;
 public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restRepo;
     private final AddressRepository addrRepo;
+    private final TagRepository tagRepo;
 
     @Transactional
     @Override
@@ -100,6 +106,35 @@ public class RestaurantServiceImpl implements RestaurantService {
         return AddressMapper.toDTO(addrRepo.save(address));
     }
 
+    @Transactional
+    @Override
+    public FullRestaurantDTO updateRestaurantTags(Integer id, UpdateTagsDTO dto) {
+        var tag = tagRepo.findTagById(dto.id)
+                .orElseThrow(() -> new NoSuchTagException(dto.id));
+
+        var restaurant = restRepo.findRestaurantById(id)
+                .orElseThrow(() -> new NoSuchRestaurantException(id));
+
+        restaurant.getRestaurantTags().add(tag);
+
+        return RestaurantMapper.toFullDTO(restRepo.save(restaurant));
+    }
+
+    @Transactional
+    @Override
+    public FullRestaurantDTO deleteRestaurantTags(Integer id, UpdateTagsDTO dto) {
+        var restaurant = restRepo.findRestaurantById(id)
+                .orElseThrow(() -> new NoSuchRestaurantException(id));
+
+        for(Tag t : restaurant.getRestaurantTags()) {
+            if(dto.id == t.getId()) {
+                restaurant.getRestaurantTags().remove(t);
+                return RestaurantMapper.toFullDTO(restRepo.save(restaurant));
+            }
+        }
+
+        throw new NoSuchRestaurantTagException(id, dto.id);
+    }
 
     // Utility function to execute function if value not null
     private <T> void ifNotNull(T val, Consumer<T> func) {
