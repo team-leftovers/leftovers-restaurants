@@ -1,14 +1,13 @@
 package com.leftovers.restaurants.service;
 
-import com.leftovers.restaurants.dto.CreateFoodDTO;
-import com.leftovers.restaurants.dto.FullFoodDTO;
-import com.leftovers.restaurants.dto.ShortFoodDTO;
-import com.leftovers.restaurants.dto.UpdateFoodDTO;
-import com.leftovers.restaurants.exception.NoSuchFoodException;
-import com.leftovers.restaurants.exception.NoSuchRestaurantException;
+import com.leftovers.restaurants.dto.*;
+import com.leftovers.restaurants.exception.*;
 import com.leftovers.restaurants.mapper.FoodMapper;
+import com.leftovers.restaurants.mapper.RestaurantMapper;
+import com.leftovers.restaurants.model.Tag;
 import com.leftovers.restaurants.repository.FoodRepository;
 import com.leftovers.restaurants.repository.RestaurantRepository;
+import com.leftovers.restaurants.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 public class FoodServiceImpl implements FoodService {
     private final FoodRepository foodRepo;
     private final RestaurantRepository restRepo;
+    private final TagRepository tagRepo;
 
     @Transactional
     @Override
@@ -75,6 +75,35 @@ public class FoodServiceImpl implements FoodService {
             throw new NoSuchFoodException(id);
     }
 
+    @Transactional
+    @Override
+    public FullFoodDTO updateFoodTags(Integer id, UpdateTagsDTO dto) {
+        var tag = tagRepo.findTagById(dto.id)
+                .orElseThrow(() -> new NoSuchTagException(dto.id));
+
+        var food = foodRepo.findFoodById(id)
+                .orElseThrow(() -> new NoSuchFoodException(id));
+
+        food.getFoodTags().add(tag);
+
+        return FoodMapper.toFullDTO(foodRepo.save(food));
+    }
+
+    @Transactional
+    @Override
+    public FullFoodDTO deleteFoodTags(Integer fId, Integer tId) {
+        var food = foodRepo.findFoodById(fId)
+                .orElseThrow(() -> new NoSuchFoodException(fId));
+
+        for(Tag t : food.getFoodTags()) {
+            if(tId == t.getId()) {
+                food.getFoodTags().remove(t);
+                return FoodMapper.toFullDTO(foodRepo.save(food));
+            }
+        }
+
+        throw new NoSuchFoodTagException(fId, tId);
+    }
 
     // Utility function to execute function if value not null
     private <T> void ifNotNull(T val, Consumer<T> func) {

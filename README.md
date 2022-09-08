@@ -38,6 +38,20 @@ JSON formats at bottom of page.
 - 400 Bad Request: on passing invalid id
 - 404 Not Found: on failure to find the address
 
+## `/restaurants/{id}/tags`
+### PUT:
+- Adds a tag to a restaurant using a JSON object
+- 200 OK: JSON object if restaurant updated successfully
+- 400 Bad Request: on passing invalid id
+- 404 Not Found: on passing id or tag id that doesn't exist
+- 422 Unprocessable Entity: if JSON object is malformed or has invalid field values
+
+## `/restaurants/{fid}/tags/{tid}`
+### DELETE:
+- 200 OK: successful deletion of restaurant tag
+- 400 Bad Request: on passing invalid id
+- 404 Not Found: on failure to find the restaurant or tag in the restaurant tags set
+
 ## `/food`
 ### POST:
 - Create new food item for restaurant id using JSON object
@@ -62,9 +76,51 @@ JSON formats at bottom of page.
 - 422 Unprocessable Entity: if JSON object is malformed or has invalid field values
 
 ### DELETE:
-- 200 OK:  successful deletion of food item
+- 200 OK: successful deletion of food item
 - 400 Bad Request: on passing invalid id
 - 404 Not Found: on failure to find the food item
+
+## `/food/{id}/tags`
+### PUT:
+- Adds a tag to a food using a JSON object
+- 200 OK: JSON object if food updated successfully
+- 400 Bad Request: on passing invalid id
+- 404 Not Found: on passing id or tag id that doesn't exist
+- 422 Unprocessable Entity: if JSON object is malformed or has invalid field values
+
+## `/food/{fid}/tags/{tid}`
+### DELETE:
+- 200 OK: successful deletion of food tag
+- 400 Bad Request: on passing invalid id
+- 404 Not Found: on failure to find the food item or tag in the food tags set
+
+## `/tags`
+### POST:
+- Creates a new tag using a JSON object
+- 201 Created: JSON object representing the tag on creation success
+- 400 Bad Request: on creation failure
+- 422 Unprocessable Entity: if JSON object is malformed or has invalid field values
+
+### GET:
+- 200 OK:  JSON list of tags
+- 204 No Content: if no tag was created
+
+## `/tags/{id}`
+### GET:
+- 200 OK: JSON object of tag with id
+- 400 Bad Request: on passing an invalid id
+- 404 Not Found: on failure to find tag
+
+### PUT:
+- Updates a tag using a JSON object
+- 200 OK: JSON object if tag updated successfully
+- 400 Bad Request: on passing invalid id
+- 422 Unprocessable Entity: if JSON object is malformed or has invalid field values
+
+### DELETE:
+- 200 OK:  successful deletion of tag
+- 400 Bad Request: on passing invalid id
+- 404 Not Found: on failure to find the tag
 
 ## `/search`
 ### POST:
@@ -103,6 +159,12 @@ JSON formats at bottom of page.
       "id": "int",
       "name": "string",
       "price": "decimal"
+    }
+  ],
+  "tags": [
+    {
+      "id": "int",
+      "name": "string"
     }
   ]
 }
@@ -149,13 +211,20 @@ JSON formats at bottom of page.
 
 ## Food JSON DTOs
 ### Full Food DTO
+
 ```json
 {
   "id": "int",
   "name": "string",
   "description": "string",
   "price": "decimal",
-  "restaurantId": "int"
+  "restaurantId": "int",
+  "tags": [
+    {
+      "id": "int",
+      "name": "string"
+    }
+  ]
 }
 ```
 
@@ -215,5 +284,35 @@ JSON formats at bottom of page.
   "unitNumber": "string? (Nullable)",
   "latitude": "double? (Nullable)",
   "longitude": "double? (Nullable)"
+}
+```
+
+## Tag JSON DTOs
+### Tag DTO
+```json
+{
+  "id": "int",
+  "name": "string"
+}
+```
+
+### Tag Create DTO
+```json
+{
+  "name": "string"
+}
+```
+
+### Tag Update DTO
+```json
+{
+  "name": "string"
+}
+```
+
+### Tags Update DTO
+```json
+{
+  "id": "int"
 }
 ```

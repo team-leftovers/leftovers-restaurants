@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -33,4 +34,10 @@ public class Food {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="restaurant_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Restaurant restaurant;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tbl_food_tag",
+            joinColumns = { @JoinColumn(name = "food_id") },
+            inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+    private Set<Tag> foodTags;
 }

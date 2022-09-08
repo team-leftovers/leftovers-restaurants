@@ -4,6 +4,10 @@ import com.leftovers.restaurants.dto.CreateFoodDTO;
 import com.leftovers.restaurants.dto.FullFoodDTO;
 import com.leftovers.restaurants.dto.ShortFoodDTO;
 import com.leftovers.restaurants.model.Food;
+import com.leftovers.restaurants.model.Tag;
+
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class FoodMapper {
     public static Food toFood(CreateFoodDTO dto) {
@@ -12,6 +16,7 @@ public class FoodMapper {
                 .description(dto.description)
                 .price(dto.price)
                 .restaurantId(dto.restaurantId)
+                .foodTags(new HashSet<Tag>())
             .build();
     }
 
@@ -30,6 +35,10 @@ public class FoodMapper {
                 .description(food.getDescription())
                 .price(food.getPrice())
                 .restaurantId(food.getRestaurantId())
+                .tags(food.getFoodTags()
+                        .stream()
+                        .map(item -> TagMapper.toDto(item))
+                        .collect(Collectors.toSet()))
             .build();
     }
 }
