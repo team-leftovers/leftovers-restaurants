@@ -14,5 +14,5 @@ public interface RestaurantService {
     List<Food> getAllFoodByRestaurant(Integer id);
     AddressDTO updateRestaurantAddress(UpdateAddressDTO dto);
     FullRestaurantDTO updateRestaurantTags(Integer id, UpdateTagsDTO dto);
-    FullRestaurantDTO deleteRestaurantTags(Integer id, UpdateTagsDTO dto);
+    FullRestaurantDTO deleteRestaurantTags(Integer rId, Integer tId);
 }

@@ -58,7 +58,7 @@ public class Restaurant {
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<Food> menuItems;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tbl_restaurant_tag",
         joinColumns = { @JoinColumn(name = "restaurant_id") },
         inverseJoinColumns = { @JoinColumn(name = "tag_id") })

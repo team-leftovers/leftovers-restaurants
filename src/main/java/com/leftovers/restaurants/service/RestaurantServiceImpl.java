@@ -122,18 +122,18 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Transactional
     @Override
-    public FullRestaurantDTO deleteRestaurantTags(Integer id, UpdateTagsDTO dto) {
-        var restaurant = restRepo.findRestaurantById(id)
-                .orElseThrow(() -> new NoSuchRestaurantException(id));
+    public FullRestaurantDTO deleteRestaurantTags(Integer rId, Integer tId) {
+        var restaurant = restRepo.findRestaurantById(rId)
+                .orElseThrow(() -> new NoSuchRestaurantException(rId));
 
         for(Tag t : restaurant.getRestaurantTags()) {
-            if(dto.id == t.getId()) {
+            if(tId == t.getId()) {
                 restaurant.getRestaurantTags().remove(t);
                 return RestaurantMapper.toFullDTO(restRepo.save(restaurant));
             }
         }
 
-        throw new NoSuchRestaurantTagException(id, dto.id);
+        throw new NoSuchRestaurantTagException(rId, tId);
     }
 
     // Utility function to execute function if value not null
