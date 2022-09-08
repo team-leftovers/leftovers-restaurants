@@ -1,9 +1,6 @@
 package com.leftovers.restaurants.controller;
 
-import com.leftovers.restaurants.dto.CreateFoodDTO;
-import com.leftovers.restaurants.dto.FullFoodDTO;
-import com.leftovers.restaurants.dto.ShortFoodDTO;
-import com.leftovers.restaurants.dto.UpdateFoodDTO;
+import com.leftovers.restaurants.dto.*;
 import com.leftovers.restaurants.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,5 +59,21 @@ public class FoodController {
         log.info("DELETE Food " + id);
         service.deleteFood(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(path = "/{id}/tags", method = RequestMethod.PUT,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullFoodDTO> updateRestaurantTags(@PathVariable Integer id,
+                                                                  @Valid @RequestBody UpdateTagsDTO dto) {
+        log.info("PUT Food " + id + " Tag " + dto.id);
+        return ResponseEntity.ok(service.updateFoodTags(id, dto));
+    }
+
+    @RequestMapping(path = "/{fId}/tags/{tId}", method = RequestMethod.DELETE,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullFoodDTO> deleteRestaurantTag(@PathVariable Integer fId,
+                                                                 @PathVariable Integer tId) {
+        log.info("DELETE Food " + fId + " Tag " + tId);
+        return ResponseEntity.ok(service.deleteFoodTags(fId, tId));
     }
 }
