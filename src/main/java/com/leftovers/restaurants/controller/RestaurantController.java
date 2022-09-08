@@ -69,4 +69,20 @@ public class RestaurantController {
         log.info("PUT Restaurant " + id + " Address");
         return ResponseEntity.ok(service.updateRestaurantAddress(dto));
     }
+
+    @RequestMapping(path = "/{id}/tags", method = RequestMethod.PUT,
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullRestaurantDTO> updateRestaurantTags(@PathVariable Integer id,
+                                                                  @Valid @RequestBody UpdateTagsDTO dto) {
+        log.info("PUT Restaurant " + id + " Tag " + dto.id);
+        return ResponseEntity.ok(service.updateRestaurantTags(id, dto));
+    }
+
+    @RequestMapping(path = "/{rId}/tags/{tId}", method = RequestMethod.DELETE,
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<FullRestaurantDTO> deleteRestaurantTag(@PathVariable Integer rId,
+                                                                 @PathVariable Integer tId) {
+        log.info("DELETE Restaurant " + rId + " Tag " + tId);
+        return ResponseEntity.ok(service.deleteRestaurantTags(rId, tId));
+    }
 }

@@ -5,6 +5,7 @@ import lombok.Builder;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 public class FullRestaurantDTO {
@@ -18,4 +19,5 @@ public class FullRestaurantDTO {
     public Integer ratingCount;
     public AddressDTO address;
     public List<ShortFoodDTO> food;
+    public Set<TagDTO> tags;
 }

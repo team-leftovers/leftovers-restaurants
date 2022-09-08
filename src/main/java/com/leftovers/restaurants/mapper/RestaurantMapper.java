@@ -3,8 +3,10 @@ package com.leftovers.restaurants.mapper;
 import com.leftovers.restaurants.dto.*;
 import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.model.Restaurant;
+import com.leftovers.restaurants.model.Tag;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 public class RestaurantMapper {
@@ -16,6 +18,7 @@ public class RestaurantMapper {
                 .openTime(dto.openTime)
                 .closeTime(dto.closeTime)
                 .menuItems(new ArrayList<Food>())
+                .restaurantTags(new HashSet<Tag>())
             .build();
     }
 
@@ -44,6 +47,10 @@ public class RestaurantMapper {
                         .stream()
                         .map(item -> FoodMapper.toShortDTO(item))
                         .collect(Collectors.toList()))
+                .tags(restaurant.getRestaurantTags()
+                        .stream()
+                        .map(item -> TagMapper.toDto(item))
+                        .collect(Collectors.toSet()))
             .build();
     }
 }
