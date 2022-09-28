@@ -1,6 +1,7 @@
 package com.leftovers.restaurants.controller;
 
 import com.leftovers.restaurants.dto.GetRestaurantDto;
+import com.leftovers.restaurants.dto.ShortRestaurantDTO;
 import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.service.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,12 @@ public class SearchController {
         log.info("Searching for Restaurants by foodName" + foodName + "  tags   " + tagsFromFront);
         List<String> tags = Arrays.asList(tagsFromFront.split(","));
         return ResponseEntity.of(Optional.ofNullable(service.getRestaurantsByFood(foodName , tags)));
+    }
+
+    @RequestMapping(path = "/by-name" , method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<List<ShortRestaurantDTO>> getRestaurantByName(@RequestParam String term)
+    {
+        log.info("Get Restaurant by-name " + term);
+        return ResponseEntity.ok(service.getRestaurantByName(term));
     }
 }
