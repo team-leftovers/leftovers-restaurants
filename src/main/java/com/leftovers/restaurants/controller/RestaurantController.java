@@ -6,12 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+//@CrossOrigin(origins = {"${app.security.cors.origin}"})
 @Slf4j
 @RestController
 @RequestMapping(path = "/restaurants")
@@ -21,6 +23,7 @@ public class RestaurantController {
     private final RestaurantService service;
 
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<FullRestaurantDTO> postRestaurant(@Valid @RequestBody CreateRestaurantDTO dto) {
@@ -47,6 +50,7 @@ public class RestaurantController {
         return ResponseEntity.ok(service.getRestaurant(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<FullRestaurantDTO> updateRestaurant(@PathVariable Integer id,
@@ -55,6 +59,7 @@ public class RestaurantController {
         return ResponseEntity.ok(service.updateRestaurant(id, dto));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteRestaurant(@PathVariable Integer id) {
         log.info("DELETE Restaurant " + id);
@@ -62,6 +67,7 @@ public class RestaurantController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}/address", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<AddressDTO> updateRestaurantAddress(@PathVariable Integer id,
@@ -70,6 +76,7 @@ public class RestaurantController {
         return ResponseEntity.ok(service.updateRestaurantAddress(dto));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}/tags", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<FullRestaurantDTO> updateRestaurantTags(@PathVariable Integer id,
@@ -78,6 +85,7 @@ public class RestaurantController {
         return ResponseEntity.ok(service.updateRestaurantTags(id, dto));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{rId}/tags/{tId}", method = RequestMethod.DELETE,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<FullRestaurantDTO> deleteRestaurantTag(@PathVariable Integer rId,

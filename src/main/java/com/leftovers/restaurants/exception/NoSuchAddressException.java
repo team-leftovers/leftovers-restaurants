@@ -7,7 +7,7 @@ public class NoSuchAddressException extends NoSuchElementException {
     private final Integer id;
 
     public NoSuchAddressException(Integer id) {
-        super("No food found with id=" + id);
+        super("No address found with id=" + id);
         this.id = id;
     }
 

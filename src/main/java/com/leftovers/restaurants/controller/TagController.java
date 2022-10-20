@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,8 @@ public class TagController {
     private static final String MAPPING = "/tag";
     private final TagService service;
 
+
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<TagDTO> createTag(@Valid @RequestBody CreateTagDTO dto) {
@@ -46,6 +49,7 @@ public class TagController {
         return ResponseEntity.ok(service.getTag(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<TagDTO> updateFood(@PathVariable Integer id, @Valid @RequestBody UpdateTagDTO dto) {
@@ -53,6 +57,7 @@ public class TagController {
         return ResponseEntity.ok(service.updateTag(id, dto));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteFood(@PathVariable Integer id) {
         log.info("DELETE Tag " + id);

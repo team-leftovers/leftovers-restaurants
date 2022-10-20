@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -114,6 +115,7 @@ public class FoodControllerTests {
     // ================ TESTS ================ //
     // ======================================= //
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void PostFoodTest() throws Exception {
         var dto = CreateFoodDTO.builder()
             .name(food.getName())
@@ -158,6 +160,7 @@ public class FoodControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void putFoodTest() throws Exception {
         var dto = UpdateFoodDTO.builder()
                 .name("New Food Name")
@@ -173,6 +176,7 @@ public class FoodControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void deleteFoodTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                     .delete(endpoint + "/" + food.getId()))
@@ -184,6 +188,7 @@ public class FoodControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void putFoodTagsTest() throws Exception {
         var dto = UpdateTagsDTO.builder()
                 .id(tag.getId())
@@ -199,6 +204,7 @@ public class FoodControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void deleteFoodTagsTest() throws Exception {
         food.setFoodTags(new HashSet<Tag>());
         food.getFoodTags().add(tag);

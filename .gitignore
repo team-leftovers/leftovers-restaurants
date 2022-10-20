@@ -34,3 +34,5 @@ build/
 
 ### Our custome ###
 application.properties
+*.sh
+*.exec

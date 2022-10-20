@@ -18,7 +18,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -30,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Slf4j
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class RestaurantControllerTests {
     @Autowired
     private MockMvc mvc;
@@ -99,6 +102,7 @@ public class RestaurantControllerTests {
     // ======================================= //
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void PostRestaurantTest() throws Exception {
         var dto = CreateRestaurantDTO.builder()
                 .name(restaurant.getName())
@@ -123,7 +127,8 @@ public class RestaurantControllerTests {
     }
 
     @org.junit.jupiter.api.Test
-    public void getAllRestaurantTest() throws Exception {
+    @WithMockUser(roles="SITE_ADMIN")
+    public void  getAllRestaurantTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                         .get(endpoint)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -141,6 +146,7 @@ public class RestaurantControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void putRestaurantTest() throws Exception {
         var dto = UpdateRestaurantDTO.builder()
                 .name("New Restaurant")
@@ -157,6 +163,7 @@ public class RestaurantControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void deleteRestaurantTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                         .delete(endpoint + "/" + restaurant.getId()))
@@ -168,6 +175,7 @@ public class RestaurantControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void putAddressTest() throws Exception {
         var dto = UpdateAddressDTO.builder()
                 .id(restaurant.getAddressId())
@@ -185,6 +193,7 @@ public class RestaurantControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void putRestaurantTagsTest() throws Exception {
         var dto = UpdateTagsDTO.builder()
                 .id(tag.getId())
@@ -200,6 +209,7 @@ public class RestaurantControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void deleteRestaurantTagsTest() throws Exception {
         restaurant.setRestaurantTags(new HashSet<Tag>());
         restaurant.getRestaurantTags().add(tag);

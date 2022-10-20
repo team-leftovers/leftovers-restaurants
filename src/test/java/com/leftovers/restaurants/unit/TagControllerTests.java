@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -58,6 +59,7 @@ public class TagControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void PostFoodTest() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                         .post(endpoint)
@@ -101,6 +103,7 @@ public class TagControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void putFoodTest() throws Exception {
         var result = repo.save(validTag);
 
@@ -114,6 +117,7 @@ public class TagControllerTests {
     }
 
     @org.junit.jupiter.api.Test
+    @WithMockUser(roles="SITE_ADMIN")
     public void deleteFoodTest() throws Exception {
         var result = repo.save(validTag);
 

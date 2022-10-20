@@ -1,7 +1,9 @@
 package com.leftovers.restaurants.service;
 
 import com.leftovers.restaurants.dto.GetRestaurantDto;
+import com.leftovers.restaurants.dto.ShortRestaurantDTO;
 import com.leftovers.restaurants.exception.NoSuchFoodException;
+import com.leftovers.restaurants.mapper.RestaurantMapper;
 import com.leftovers.restaurants.model.Food;
 import com.leftovers.restaurants.model.Restaurant;
 import com.leftovers.restaurants.repository.FoodRepository;
@@ -44,5 +46,10 @@ public class SearchService {
     public GetRestaurantDto convertEntityToDto(Restaurant restaurant) {
         GetRestaurantDto getRestaurantDto = modelMapper.map(restaurant , GetRestaurantDto.class);
         return getRestaurantDto;
+    }
+
+    public List<ShortRestaurantDTO> getRestaurantByName(String term) {
+        return restRepo.findRestaurantByNameContainingIgnoreCase(term).stream().map(restaurant ->
+                RestaurantMapper.toShortDTO(restaurant)).collect(Collectors.toList());
     }
 }
