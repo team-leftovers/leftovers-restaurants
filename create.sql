@@ -101,6 +101,7 @@ CREATE TABLE IF NOT EXISTS tbl_driver(
     account_id INT NOT NULL,
     license_plate VARCHAR(255) NOT NULL,
     rating DECIMAL(3,2) NOT NULL,
+    active BOOLEAN DEFAULT false NULL,
     PRIMARY KEY (account_id),
     FOREIGN KEY (account_id) REFERENCES tbl_account(id)
 );
