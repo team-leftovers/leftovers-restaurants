@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ public class FoodController {
     private final FoodService service;
 
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<FullFoodDTO> createFood(@Valid @RequestBody CreateFoodDTO dto) {
@@ -47,6 +49,7 @@ public class FoodController {
         return ResponseEntity.ok(service.getFood(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<FullFoodDTO> updateFood(@PathVariable Integer id, @Valid @RequestBody UpdateFoodDTO dto) {
@@ -54,6 +57,7 @@ public class FoodController {
         return ResponseEntity.ok(service.updateFood(id, dto));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteFood(@PathVariable Integer id) {
         log.info("DELETE Food " + id);
@@ -61,6 +65,7 @@ public class FoodController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{id}/tags", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<FullFoodDTO> updateRestaurantTags(@PathVariable Integer id,
@@ -69,6 +74,7 @@ public class FoodController {
         return ResponseEntity.ok(service.updateFoodTags(id, dto));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_SITE_ADMIN', 'ROLE_RESTAURANT_ADMIN')")
     @RequestMapping(path = "/{fId}/tags/{tId}", method = RequestMethod.DELETE,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<FullFoodDTO> deleteRestaurantTag(@PathVariable Integer fId,
